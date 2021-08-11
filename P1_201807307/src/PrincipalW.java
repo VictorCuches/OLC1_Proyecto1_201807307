@@ -26,18 +26,120 @@ public class PrincipalW extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
+        VentanaPri = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jPanel2.setBackground(new java.awt.Color(102, 255, 102));
-        jPanel2.setLayout(null);
-        getContentPane().add(jPanel2);
-        jPanel2.setBounds(10, 11, 380, 278);
+        VentanaPri.setBackground(new java.awt.Color(204, 204, 204));
+        VentanaPri.setLayout(null);
+
+        jLabel1.setFont(new java.awt.Font("Bookman Old Style", 1, 24)); // NOI18N
+        jLabel1.setText("CONSOLA");
+        VentanaPri.add(jLabel1);
+        jLabel1.setBounds(540, 20, 160, 60);
+
+        jLabel2.setFont(new java.awt.Font("Bookman Old Style", 1, 24)); // NOI18N
+        jLabel2.setText("EDITOR");
+        VentanaPri.add(jLabel2);
+        jLabel2.setBounds(30, 10, 130, 60);
+
+        jTextArea1.setBackground(new java.awt.Color(0, 0, 0));
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("DialogInput", 0, 14)); // NOI18N
+        jTextArea1.setForeground(new java.awt.Color(51, 204, 0));
+        jTextArea1.setRows(5);
+        jTextArea1.setText("Contenido consola\n....\n...\n..\n.");
+        jScrollPane1.setViewportView(jTextArea1);
+
+        VentanaPri.add(jScrollPane1);
+        jScrollPane1.setBounds(470, 80, 280, 320);
+
+        getContentPane().add(VentanaPri);
+        VentanaPri.setBounds(0, 0, 780, 450);
+
+        jMenu1.setText("Archivo");
+
+        jMenuItem1.setText("Abrir");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Guardar");
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("Guardar Como");
+        jMenu1.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Pestaña");
+
+        jMenuItem4.setText("Agregar");
+        jMenu2.add(jMenuItem4);
+
+        jMenuItem5.setText("Eliminar");
+        jMenu2.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Ejecutar");
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Reportes");
+
+        jMenuItem6.setText("Errores");
+        jMenu4.add(jMenuItem6);
+
+        jMenuItem7.setText("Estadistico");
+        jMenu4.add(jMenuItem7);
+
+        jMenuItem8.setText("Tokens");
+        jMenu4.add(jMenuItem8);
+
+        jMenuItem9.setText("JSON");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem9);
+
+        jMenuBar1.add(jMenu4);
+
+        setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -75,6 +177,24 @@ public class PrincipalW extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel VentanaPri;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
