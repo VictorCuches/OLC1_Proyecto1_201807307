@@ -8,6 +8,14 @@
  *
  * @author vcuch
  */
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 public class PrincipalW extends javax.swing.JFrame {
 
     /**
@@ -15,7 +23,11 @@ public class PrincipalW extends javax.swing.JFrame {
      */
     public PrincipalW() {
         initComponents();
-    }
+        this.setLocationRelativeTo(null);
+        this.setTitle("FIUSAC Copy Analizer");
+        Image ico = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Images/logoIng.jpg"));
+        this.setIconImage(ico);
+    }  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,10 +42,12 @@ public class PrincipalW extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        consolaArea = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        verFile = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        abrirFile = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -47,44 +61,46 @@ public class PrincipalW extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         VentanaPri.setBackground(new java.awt.Color(204, 204, 204));
-        VentanaPri.setLayout(null);
+        VentanaPri.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Bookman Old Style", 1, 24)); // NOI18N
         jLabel1.setText("CONSOLA");
-        VentanaPri.add(jLabel1);
-        jLabel1.setBounds(540, 20, 160, 60);
+        VentanaPri.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 160, 60));
 
         jLabel2.setFont(new java.awt.Font("Bookman Old Style", 1, 24)); // NOI18N
-        jLabel2.setText("EDITOR");
-        VentanaPri.add(jLabel2);
-        jLabel2.setBounds(30, 10, 130, 60);
+        jLabel2.setText("E D I T O R");
+        VentanaPri.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, 160, 60));
 
-        jTextArea1.setBackground(new java.awt.Color(0, 0, 0));
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("DialogInput", 0, 14)); // NOI18N
-        jTextArea1.setForeground(new java.awt.Color(51, 204, 0));
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Contenido consola\n....\n...\n..\n.");
-        jScrollPane1.setViewportView(jTextArea1);
+        consolaArea.setBackground(new java.awt.Color(0, 0, 0));
+        consolaArea.setColumns(20);
+        consolaArea.setFont(new java.awt.Font("DialogInput", 0, 14)); // NOI18N
+        consolaArea.setForeground(new java.awt.Color(51, 204, 0));
+        consolaArea.setRows(5);
+        consolaArea.setText("Contenido consola\n....\n...\n..\n.");
+        jScrollPane1.setViewportView(consolaArea);
 
-        VentanaPri.add(jScrollPane1);
-        jScrollPane1.setBounds(470, 80, 280, 320);
+        VentanaPri.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, 280, 320));
 
-        getContentPane().add(VentanaPri);
-        VentanaPri.setBounds(0, 0, 780, 450);
+        verFile.setColumns(20);
+        verFile.setRows(5);
+        jScrollPane2.setViewportView(verFile);
+
+        VentanaPri.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 380, 320));
+
+        getContentPane().add(VentanaPri, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 770, 450));
 
         jMenu1.setText("Archivo");
 
-        jMenuItem1.setText("Abrir");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        abrirFile.setText("Abrir");
+        abrirFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                abrirFileActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(abrirFile);
 
         jMenuItem2.setText("Guardar");
         jMenu1.add(jMenuItem2);
@@ -133,9 +149,30 @@ public class PrincipalW extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void abrirFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirFileActionPerformed
+        JFileChooser JFile = new JFileChooser();
+        JFile.showOpenDialog(null);
+        File archivo = JFile.getSelectedFile();
+        
+        try{
+            FileReader Fread = new FileReader(archivo);
+            BufferedReader Bread = new BufferedReader(Fread);
+            String texto = "";
+            String linea = "";
+            
+            if(archivo.getName().endsWith("fca")){ // solamente se pueden leer archivos con extension .fca
+                while (((linea = Bread.readLine()) != null)){
+                    texto += linea+"\n";
+                }
+                verFile.setText(texto);
+                JOptionPane.showMessageDialog(null, "Archivo leido");
+            } else {
+                JOptionPane.showMessageDialog(null, "El archivo no se puede leer");
+            }    
+        } catch (Exception e){
+            
+        }   
+    }//GEN-LAST:event_abrirFileActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         // TODO add your handling code here:
@@ -178,6 +215,8 @@ public class PrincipalW extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel VentanaPri;
+    private javax.swing.JMenuItem abrirFile;
+    private javax.swing.JTextArea consolaArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
@@ -185,7 +224,6 @@ public class PrincipalW extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -195,6 +233,7 @@ public class PrincipalW extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea verFile;
     // End of variables declaration//GEN-END:variables
 }
