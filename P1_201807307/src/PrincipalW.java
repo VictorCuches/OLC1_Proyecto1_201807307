@@ -68,7 +68,7 @@ public class PrincipalW extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Bookman Old Style", 1, 24)); // NOI18N
         jLabel1.setText("CONSOLA");
-        VentanaPri.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 160, 60));
+        VentanaPri.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, 160, 60));
 
         jLabel2.setFont(new java.awt.Font("Bookman Old Style", 1, 24)); // NOI18N
         jLabel2.setText("E D I T O R");
@@ -82,7 +82,7 @@ public class PrincipalW extends javax.swing.JFrame {
         consolaArea.setText("Contenido consola\n....\n...\n..\n.");
         jScrollPane1.setViewportView(consolaArea);
 
-        VentanaPri.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, 280, 320));
+        VentanaPri.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 80, 280, 320));
 
         verFile.setColumns(20);
         verFile.setRows(5);
