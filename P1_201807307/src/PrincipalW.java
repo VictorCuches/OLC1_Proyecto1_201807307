@@ -8,19 +8,28 @@
  *
  * @author vcuch
  */
+
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+
 public class PrincipalW extends javax.swing.JFrame {
+    
+   
 
     /**
      * Creates new form PrincipalW
      */
+
+    String textFile ="";
+    File archivoEntrada;
     public PrincipalW() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -53,11 +62,12 @@ public class PrincipalW extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        Ejecutar = new javax.swing.JMenu();
+        EjecutarApp = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        ReportToken = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -120,8 +130,22 @@ public class PrincipalW extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Ejecutar");
-        jMenuBar1.add(jMenu3);
+        Ejecutar.setText("Ejecutar");
+        Ejecutar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EjecutarActionPerformed(evt);
+            }
+        });
+
+        EjecutarApp.setText("Ejecutar");
+        EjecutarApp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EjecutarAppActionPerformed(evt);
+            }
+        });
+        Ejecutar.add(EjecutarApp);
+
+        jMenuBar1.add(Ejecutar);
 
         jMenu4.setText("Reportes");
 
@@ -131,8 +155,13 @@ public class PrincipalW extends javax.swing.JFrame {
         jMenuItem7.setText("Estadistico");
         jMenu4.add(jMenuItem7);
 
-        jMenuItem8.setText("Tokens");
-        jMenu4.add(jMenuItem8);
+        ReportToken.setText("Tokens");
+        ReportToken.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReportTokenActionPerformed(evt);
+            }
+        });
+        jMenu4.add(ReportToken);
 
         jMenuItem9.setText("JSON");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
@@ -154,6 +183,7 @@ public class PrincipalW extends javax.swing.JFrame {
         JFile.showOpenDialog(null);
         File archivo = JFile.getSelectedFile();
         
+        
         try{
             FileReader Fread = new FileReader(archivo);
             BufferedReader Bread = new BufferedReader(Fread);
@@ -164,7 +194,12 @@ public class PrincipalW extends javax.swing.JFrame {
                 while (((linea = Bread.readLine()) != null)){
                     texto += linea+"\n";
                 }
+                
+                
+                textFile = texto;
                 verFile.setText(texto);
+                System.out.println("Contenido del archivo: ");
+                System.out.println(textFile);
                 JOptionPane.showMessageDialog(null, "Archivo leido");
             } else {
                 JOptionPane.showMessageDialog(null, "El archivo no se puede leer");
@@ -177,6 +212,41 @@ public class PrincipalW extends javax.swing.JFrame {
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void EjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EjecutarActionPerformed
+                // TODO add your handling code here:
+                
+        
+    }//GEN-LAST:event_EjecutarActionPerformed
+
+    private void EjecutarAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EjecutarAppActionPerformed
+        // TODO add your handling code here:
+        
+        System.out.println("Estoy ejecutando");
+        String path = "entrada.txt";
+                
+        AnalizadoresFCA.Sintactico pars;
+        try {
+            pars=new AnalizadoresFCA.Sintactico(new AnalizadoresFCA.Lexico(new FileInputStream(path)));
+            
+            pars.parse();        
+        } catch (Exception ex) {
+            System.out.println("Error fatal en compilación de entrada.");
+            System.out.println("Causa: "+ex.getCause());
+        } 
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_EjecutarAppActionPerformed
+
+    private void ReportTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportTokenActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+    }//GEN-LAST:event_ReportTokenActionPerformed
 
     /**
      * @param args the command line arguments
@@ -214,6 +284,9 @@ public class PrincipalW extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu Ejecutar;
+    private javax.swing.JMenuItem EjecutarApp;
+    private javax.swing.JMenuItem ReportToken;
     private javax.swing.JPanel VentanaPri;
     private javax.swing.JMenuItem abrirFile;
     private javax.swing.JTextArea consolaArea;
@@ -221,7 +294,6 @@ public class PrincipalW extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -230,7 +302,6 @@ public class PrincipalW extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
