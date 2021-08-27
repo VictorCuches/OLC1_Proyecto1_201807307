@@ -9,12 +9,15 @@
  * @author vcuch
  */
 
+import AnalizadoresFCA.Lexico;
+import AnalizadoresFCA.Sintactico;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.StringReader;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -100,7 +103,7 @@ public class PrincipalW extends javax.swing.JFrame {
 
         VentanaPri.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 380, 320));
 
-        getContentPane().add(VentanaPri, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 770, 450));
+        getContentPane().add(VentanaPri, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 770, 420));
 
         jMenu1.setText("Archivo");
 
@@ -198,9 +201,11 @@ public class PrincipalW extends javax.swing.JFrame {
                 
                 textFile = texto;
                 verFile.setText(texto);
-                System.out.println("Contenido del archivo: ");
-                System.out.println(textFile);
-                JOptionPane.showMessageDialog(null, "Archivo leido");
+                System.out.println("Se leyo correctamente el archivo");
+                //System.out.println(textFile);
+                
+                
+                //JOptionPane.showMessageDialog(null, "Archivo leido");
             } else {
                 JOptionPane.showMessageDialog(null, "El archivo no se puede leer");
             }    
@@ -222,18 +227,30 @@ public class PrincipalW extends javax.swing.JFrame {
     private void EjecutarAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EjecutarAppActionPerformed
         // TODO add your handling code here:
         
+        Lexico lexico = new Lexico(new BufferedReader(new StringReader(textFile)));
+        Sintactico sintactico = new Sintactico(lexico);
+        
+        try{
+            sintactico.parse();
+            
+        } catch (Exception ex){
+            System.out.println("Error fatal en compilación de entrada.");
+            System.out.println("Causa: "+ex.getCause());
+        }
+        /*
         System.out.println("Estoy ejecutando");
         String path = "entrada.txt";
                 
         AnalizadoresFCA.Sintactico pars;
         try {
-            pars=new AnalizadoresFCA.Sintactico(new AnalizadoresFCA.Lexico(new FileInputStream(path)));
+            pars=new AnalizadoresFCA.Sintactico(new AnalizadoresFCA.Lexico(new FileInputStream(textFile)));
             
             pars.parse();        
         } catch (Exception ex) {
             System.out.println("Error fatal en compilación de entrada.");
             System.out.println("Causa: "+ex.getCause());
         } 
+        */
         
         
         

@@ -28,43 +28,41 @@ parser code
     }  
 :} 
 
-terminal String PTCOMA,PARIZQ,PARDER,CORIZQ,CORDER;
-terminal String MAS,MENOS,POR,DIVIDIDO;
-terminal String ENTERO;
-terminal String DECIMAL;
-terminal String UMENOS;
-terminal String REVALUAR;
+terminal String LLAIZQ, LLADER;
+terminal String PTCOMA;
+terminal String GEREPES;
+terminal String COMPARE, DEFGLOBAL;
 
-non terminal ini;
-non terminal instrucciones;
-non terminal instruccion;
-non terminal Double expresion;
+terminal String IDENTIFI, STRINGO, DOUBLE;
 
-precedence left MAS,MENOS;
-precedence left POR,DIVIDIDO;
-precedence right UMENOS; 
 
-start with ini; 
 
-ini::=instrucciones;
+non terminal inicio;
+non terminal instrucciones, relleno;
+non terminal contenido;
+non terminal variables, declaracion, convariables;
 
-instrucciones ::= 
-   instruccion instrucciones
- | instruccion
- | error instrucciones
-; 
 
-instruccion ::= 
-   REVALUAR CORIZQ expresion:a CORDER PTCOMA{:System.out.println("El valor de la expresión es: "+a);:}
+
+start with inicio; 
+
+inicio ::=  instrucciones 
+| error instrucciones
+| error
 ;
 
-expresion  ::= 
-    MENOS expresion:a                      {:RESULT=a*-1;:}%prec UMENOS     
- |  expresion:a MAS        expresion:b     {:RESULT=a+b;:}
- |  expresion:a MENOS      expresion:b     {:RESULT=a-b;:}
- |  expresion:a POR        expresion:b     {:RESULT=a*b;:}
- |  expresion:a DIVIDIDO   expresion:b     {:RESULT=a/b;:}
- |  ENTERO:a                               {:RESULT=new Double(a);:}
- |  DECIMAL:a                              {:RESULT=new Double(a);:}
- |  PARIZQ expresion:a PARDER              {:RESULT=a;:}
+instrucciones ::= GEREPES LLAIZQ contenido LLADER instrucciones
+| GEREPES LLAIZQ contenido LLADER
+;
+
+contenido ::= contenido relleno
+| relleno
+;
+
+relleno ::= DEFGLOBAL LLAIZQ declaracion LLADER 
+| COMPARE PTCOMA
+
+;
+
+declaracion ::= STRINGO IDENTIFI PTCOMA
 ;
