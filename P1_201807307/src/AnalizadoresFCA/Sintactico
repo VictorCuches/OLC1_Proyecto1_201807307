@@ -6,9 +6,21 @@
 
 package AnalizadoresFCA; 
 import java_cup.runtime.*;
+import ToolsFCA.*;
+import java.util.ArrayList;
 
 parser code 
 {:
+    public static ArrayList<VariablesGlo> listaVariables = new ArrayList<VariablesGlo>();
+    public static ArrayList<GraficaBarras> listaBarras = new ArrayList<GraficaBarras>();
+    public static ArrayList<GraficaPie> listaPie = new ArrayList<GraficaPie>();
+    public static ArrayList<GraficaLinea> listaLinea = new ArrayList<GraficaLinea>();
+    public static ArrayList<CompareFile> listaRuta = new ArrayList<CompareFile>();
+    
+    public ArrayList<String> listejex = new ArrayList<String>(); 
+    public ArrayList<String> listval = new ArrayList<String>(); 
+    private String titu, titux, tituy, file, ruta1, ruta2;
+
     /**
      * Método al que se llama automáticamente ante algún error sintactico.
      **/ 
@@ -26,6 +38,49 @@ parser code
         (s.left)+ " Columna "+s.right+". Componente " + s.value + 
         " no reconocido."); 
     }  
+
+    public void saveBarras(){
+        listaBarras.add(new GraficaBarras(titu, titux, tituy, listejex, listval));
+        titu = "";
+        titux = "";
+        tituy = "";
+        file = "";
+        ruta1 = "";
+        ruta2 = "";
+        listejex.clear();
+        listval.clear();
+        
+    }
+    public void savePie(){
+        listaPie.add(new GraficaPie(titu));
+        titu = "";
+        titux = "";
+        tituy = "";
+        file = "";
+        ruta1 = "";
+        ruta2 = "";
+        
+    }
+    public void saveLineas(){
+        listaLinea.add(new GraficaLinea(titu,file));
+        titu = "";
+        titux = "";
+        tituy = "";
+        file = "";
+        ruta1 = "";
+        ruta2 = "";
+        
+    }
+    public void saveRutas(){
+        listaRuta.add(new CompareFile(ruta1,ruta2));
+        titu = "";
+        titux = "";
+        tituy = "";
+        file = "";
+        ruta1 = "";
+        ruta2 = "";
+        
+    }
 :} 
 
 terminal String LLAIZQ, LLADER, CORIZQ, CORDER, PARIZQ, PARDER;
@@ -36,7 +91,6 @@ terminal String IDENTIFI, STRINGO, DOUBLE, IGUAL, DECIMAL, ENTERO;
 terminal String GRAFBARRAS, TITULO, EJEX, VALORES, TITULOX, TITULOY;
 terminal String GRAFPIE, GRAFLIN, ARCHIVO;
 terminal String CADENA, PUNESP;
-
 
 
 
@@ -64,22 +118,22 @@ contenido ::= contenido relleno
 ;
 
 relleno ::= DEFGLOBAL LLAIZQ declaracion LLADER 
-| COMPARE PARIZQ infofile PARDER PTCOMA
-| GRAFBARRAS LLAIZQ caracbar LLADER
-| GRAFPIE LLAIZQ caracpie LLADER
-| GRAFLIN LLAIZQ caraclin LLADER
+| COMPARE PARIZQ infofile PARDER PTCOMA {:saveRutas();:} 
+| GRAFBARRAS LLAIZQ caracbar LLADER {:saveBarras();:}
+| GRAFPIE LLAIZQ caracpie LLADER {:savePie();:}
+| GRAFLIN LLAIZQ caraclin LLADER {:saveLineas();:}
 ;
 
-infofile ::= CADENA COMA CADENA
+infofile ::= CADENA:r1 COMA CADENA:r2 {: ruta1=r1; ruta2=r2;:}
 
 ;
 declaracion ::= declaracion variables
 | variables
 ;
 
-variables ::= STRINGO IDENTIFI IGUAL CADENA PTCOMA
-|  DOUBLE IDENTIFI IGUAL DECIMAL PTCOMA
-|  DOUBLE IDENTIFI IGUAL ENTERO PTCOMA
+variables ::= STRINGO:type IDENTIFI:id IGUAL CADENA:vali PTCOMA {:RESULT = listaVariables.add(new VariablesGlo(type,id,vali));:}
+|  DOUBLE:type IDENTIFI:id IGUAL DECIMAL:vali PTCOMA {:RESULT = listaVariables.add(new VariablesGlo(type,id,vali));:}
+|  DOUBLE:type IDENTIFI:id IGUAL ENTERO:vali PTCOMA {:RESULT = listaVariables.add(new VariablesGlo(type,id,vali));:}
 |  DOUBLE IDENTIFI IGUAL puntaje PTCOMA
 ;
 
@@ -90,40 +144,40 @@ caracbar ::= caracbar elementbar
 | elementbar
 ;
 
-elementbar ::= TITULO DOSPT CADENA PTCOMA        // titulo : "Grafica No. 1";
-| TITULO DOSPT IDENTIFI PTCOMA                          // titulo : variable1;
-| EJEX DOSPT CORIZQ listaejex CORDER PTCOMA
+elementbar ::= TITULO DOSPT CADENA:title PTCOMA  {:titu = title;:}
+| TITULO DOSPT IDENTIFI:title PTCOMA {:titu = title;:}                       
+| EJEX DOSPT CORIZQ listaejex CORDER PTCOMA 
 | VALORES DOSPT CORIZQ listaval CORDER PTCOMA
-| TITULOX DOSPT CADENA PTCOMA
-| TITULOX DOSPT IDENTIFI PTCOMA
-| TITULOY DOSPT CADENA PTCOMA
-| TITULOY DOSPT IDENTIFI PTCOMA
+| TITULOX DOSPT CADENA:titlex PTCOMA {:titux = titlex;:}
+| TITULOX DOSPT IDENTIFI:titlex PTCOMA {:titux = titlex;:}
+| TITULOY DOSPT CADENA:titley PTCOMA {:tituy = titley;:}
+| TITULOY DOSPT IDENTIFI:titley PTCOMA {:tituy = titley;:}
 ;
 
 listaejex ::= listaejex COMA listaejexx
 | listaejexx 
 ;
 
-listaejexx ::= IDENTIFI  
-| CADENA  
+listaejexx ::= IDENTIFI:val {:listejex.add(val);:}
+| CADENA:val {:listejex.add(val);:}
 ;
 
 listaval ::= listaval COMA listavall
 | listavall
 ;
 
-listavall ::= IDENTIFI  
-| DECIMAL
-| ENTERO 
-| CADENA
+listavall ::= IDENTIFI:val2 {:listval.add(val2);:}  
+| DECIMAL:val2 {:listval.add(val2);:} 
+| ENTERO:val2 {:listval.add(val2);:}  
+| CADENA:val2 {:listval.add(val2);:} 
 ;
 
 caracpie ::= caracpie elementpie
 | elementpie
 ;
 
-elementpie ::= TITULO DOSPT CADENA PTCOMA        // titulo : "Grafica No. 1";
-| TITULO DOSPT IDENTIFI PTCOMA 
+elementpie ::= TITULO DOSPT CADENA:title PTCOMA {:titu = title;:}
+| TITULO DOSPT IDENTIFI:title PTCOMA {:titu = title;:}
 | EJEX DOSPT CORIZQ listaejex CORDER PTCOMA
 | VALORES DOSPT CORIZQ listaval CORDER PTCOMA
 ;
@@ -132,8 +186,8 @@ caraclin ::= caraclin elementlin
 | elementlin
 ;
 
-elementlin ::= TITULO DOSPT CADENA PTCOMA        // titulo : "Grafica No. 1";
-| TITULO DOSPT IDENTIFI PTCOMA
-| ARCHIVO DOSPT CADENA PTCOMA 
-| ARCHIVO DOSPT IDENTIFI PTCOMA
+elementlin ::= TITULO DOSPT CADENA:title PTCOMA {:titu = title;:}
+| TITULO DOSPT IDENTIFI:title PTCOMA {:titu = title;:}
+| ARCHIVO DOSPT CADENA:archi PTCOMA {:file = archi;:}
+| ARCHIVO DOSPT IDENTIFI:archi PTCOMA {:file = archi;:}
 ;

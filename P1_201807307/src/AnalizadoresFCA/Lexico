@@ -42,7 +42,7 @@ CADEN = "\""[^\"]*"\""
 "[" {return new Symbol(sym.CORIZQ,yyline,yychar, yytext());} 
 "]" {return new Symbol(sym.CORDER,yyline,yychar, yytext());} 
 
-"," {return new Symbol(sym.COMA,yyline,yychar, yytext());} 
+"," {return new Symbol(sym.COMA,yyline,yychar, yytext()); } 
 ":" {return new Symbol(sym.DOSPT,yyline,yychar, yytext());} 
 ";" {return new Symbol(sym.PTCOMA,yyline,yychar, yytext());} 
 "=" {return new Symbol(sym.IGUAL,yyline,yychar, yytext());} 

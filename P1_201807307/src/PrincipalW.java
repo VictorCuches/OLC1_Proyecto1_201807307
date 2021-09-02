@@ -11,7 +11,14 @@
 
 import AnalizadoresFCA.Lexico;
 import AnalizadoresFCA.Sintactico;
+import static AnalizadoresFCA.Sintactico.listaBarras;
+import static AnalizadoresFCA.Sintactico.listaLinea;
+import static AnalizadoresFCA.Sintactico.listaPie;
+import static AnalizadoresFCA.Sintactico.listaRuta;
+import ToolsFCA.*;
+import static AnalizadoresFCA.Sintactico.listaVariables;
 import AnalizadoresJS.*;
+import ToolsFCA.VariablesGlo;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
@@ -217,6 +224,31 @@ public class PrincipalW extends javax.swing.JFrame {
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         // TODO add your handling code here:
+        System.out.println("-------------INFORMACION GUARDADA----------------");
+        System.out.println("VARIABLES ");
+        for(VariablesGlo ele: listaVariables){
+            System.out.println("Tipo: "+ele.getTipo()+" - ID: "+ele.getIdent()+" - Valor: "+ele.getValue());
+            
+        }
+        System.out.println("GRAFICA BARRAS");
+        for(GraficaBarras ele4: listaBarras){
+            System.out.println("Titulo: "+ele4.getTitulo()+" - Titulox: "+ele4.getTitulox()+" - Tituloy: "+ele4.getTituloy());
+            System.out.println("Ejex; "+ele4.getEjex());
+            System.out.println("Valores: "+ele4.getValores());
+        }
+        System.out.println("GRAFICA PIE");
+        for(GraficaPie ele2: listaPie){
+            System.out.println("Titulo: "+ele2.getTitulo());
+        }
+        System.out.println("GRAFICA LINEA");
+        for(GraficaLinea ele3: listaLinea){
+            System.out.println("Titulo: "+ele3.getTitulo()+" - Archivo: "+ele3.getArchivo());
+        }
+        System.out.println("COMPARE");
+        for(CompareFile ele5: listaRuta){
+            System.out.println("Ruta1: "+ele5.getRuta1()+" Ruta2: "+ele5.getRuta2());
+        }
+        
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void EjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EjecutarActionPerformed
@@ -227,7 +259,8 @@ public class PrincipalW extends javax.swing.JFrame {
 
     private void EjecutarAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EjecutarAppActionPerformed
         // TODO add your handling code here:
-        // SEGMENTO DE CODIGO PARA ANALIZAR ARCHIVOS .JS
+        
+        /* SEGMENTO DE CODIGO PARA ANALIZAR ARCHIVOS .JS
         LexicoJS lexicojs = new LexicoJS(new BufferedReader(new StringReader(textFile)));
         SintacticoJS sintacticojs = new SintacticoJS(lexicojs);
         
@@ -238,8 +271,8 @@ public class PrincipalW extends javax.swing.JFrame {
             System.out.println("Error fatal en compilación de entrada.");
             System.out.println("Causa: "+ex.getCause());
         }
-        
-        /* SEGMENTO DE CODIGO PARA ANALIZAR ARCHIVO .FCA
+        */
+        //SEGMENTO DE CODIGO PARA ANALIZAR ARCHIVO .FCA
         Lexico lexico = new Lexico(new BufferedReader(new StringReader(textFile)));
         Sintactico sintactico = new Sintactico(lexico);
         
@@ -250,7 +283,7 @@ public class PrincipalW extends javax.swing.JFrame {
             System.out.println("Error fatal en compilación de entrada.");
             System.out.println("Causa: "+ex.getCause());
         }
-        */
+        
         
         
         

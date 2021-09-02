@@ -1,0 +1,35 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ToolsFCA;
+
+/**
+ *
+ * @author vcuch
+ */
+public class GraficaPie {
+    private String titulo;
+ 
+    
+
+    public GraficaPie(String titulo) {
+        this.titulo = titulo;
+        
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+   
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    
+    
+    
+}

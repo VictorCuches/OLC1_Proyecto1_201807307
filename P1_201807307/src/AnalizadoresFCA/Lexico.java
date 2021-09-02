@@ -521,7 +521,7 @@ public class Lexico implements java_cup.runtime.Scanner {
 					case -8:
 						break;
 					case 8:
-						{return new Symbol(sym.COMA,yyline,yychar, yytext());}
+						{return new Symbol(sym.COMA,yyline,yychar, yytext()); }
 					case -9:
 						break;
 					case 9:

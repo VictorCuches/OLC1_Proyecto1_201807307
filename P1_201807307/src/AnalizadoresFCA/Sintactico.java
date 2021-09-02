@@ -6,6 +6,8 @@
 package AnalizadoresFCA;
 
 import java_cup.runtime.*;
+import ToolsFCA.*;
+import java.util.ArrayList;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -244,6 +246,16 @@ public class Sintactico extends java_cup.runtime.lr_parser {
 
 
 
+    public static ArrayList<VariablesGlo> listaVariables = new ArrayList<VariablesGlo>();
+    public static ArrayList<GraficaBarras> listaBarras = new ArrayList<GraficaBarras>();
+    public static ArrayList<GraficaPie> listaPie = new ArrayList<GraficaPie>();
+    public static ArrayList<GraficaLinea> listaLinea = new ArrayList<GraficaLinea>();
+    public static ArrayList<CompareFile> listaRuta = new ArrayList<CompareFile>();
+    
+    public ArrayList<String> listejex = new ArrayList<String>(); 
+    public ArrayList<String> listval = new ArrayList<String>(); 
+    private String titu, titux, tituy, file, ruta1, ruta2;
+
     /**
      * Método al que se llama automáticamente ante algún error sintactico.
      **/ 
@@ -261,6 +273,49 @@ public class Sintactico extends java_cup.runtime.lr_parser {
         (s.left)+ " Columna "+s.right+". Componente " + s.value + 
         " no reconocido."); 
     }  
+
+    public void saveBarras(){
+        listaBarras.add(new GraficaBarras(titu, titux, tituy, listejex, listval));
+        titu = "";
+        titux = "";
+        tituy = "";
+        file = "";
+        ruta1 = "";
+        ruta2 = "";
+        listejex.clear();
+        listval.clear();
+        
+    }
+    public void savePie(){
+        listaPie.add(new GraficaPie(titu));
+        titu = "";
+        titux = "";
+        tituy = "";
+        file = "";
+        ruta1 = "";
+        ruta2 = "";
+        
+    }
+    public void saveLineas(){
+        listaLinea.add(new GraficaLinea(titu,file));
+        titu = "";
+        titux = "";
+        tituy = "";
+        file = "";
+        ruta1 = "";
+        ruta2 = "";
+        
+    }
+    public void saveRutas(){
+        listaRuta.add(new CompareFile(ruta1,ruta2));
+        titu = "";
+        titux = "";
+        tituy = "";
+        file = "";
+        ruta1 = "";
+        ruta2 = "";
+        
+    }
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -377,7 +432,7 @@ class CUP$Sintactico$actions {
           case 9: // relleno ::= COMPARE PARIZQ infofile PARDER PTCOMA 
             {
               Object RESULT =null;
-
+		saveRutas();
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("relleno",2, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -386,7 +441,7 @@ class CUP$Sintactico$actions {
           case 10: // relleno ::= GRAFBARRAS LLAIZQ caracbar LLADER 
             {
               Object RESULT =null;
-
+		saveBarras();
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("relleno",2, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -395,7 +450,7 @@ class CUP$Sintactico$actions {
           case 11: // relleno ::= GRAFPIE LLAIZQ caracpie LLADER 
             {
               Object RESULT =null;
-
+		savePie();
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("relleno",2, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -404,7 +459,7 @@ class CUP$Sintactico$actions {
           case 12: // relleno ::= GRAFLIN LLAIZQ caraclin LLADER 
             {
               Object RESULT =null;
-
+		saveLineas();
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("relleno",2, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -413,7 +468,13 @@ class CUP$Sintactico$actions {
           case 13: // infofile ::= CADENA COMA CADENA 
             {
               Object RESULT =null;
-
+		int r1left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
+		int r1right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
+		String r1 = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
+		int r2left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int r2right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String r2 = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		 ruta1=r1; ruta2=r2;
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("infofile",4, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -440,7 +501,16 @@ class CUP$Sintactico$actions {
           case 16: // variables ::= STRINGO IDENTIFI IGUAL CADENA PTCOMA 
             {
               Object RESULT =null;
-
+		int typeleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).left;
+		int typeright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).right;
+		String type = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).value;
+		int idleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).value;
+		int valileft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int valiright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String vali = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		RESULT = listaVariables.add(new VariablesGlo(type,id,vali));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("variables",6, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -449,7 +519,16 @@ class CUP$Sintactico$actions {
           case 17: // variables ::= DOUBLE IDENTIFI IGUAL DECIMAL PTCOMA 
             {
               Object RESULT =null;
-
+		int typeleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).left;
+		int typeright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).right;
+		String type = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).value;
+		int idleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).value;
+		int valileft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int valiright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String vali = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		RESULT = listaVariables.add(new VariablesGlo(type,id,vali));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("variables",6, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -458,7 +537,16 @@ class CUP$Sintactico$actions {
           case 18: // variables ::= DOUBLE IDENTIFI IGUAL ENTERO PTCOMA 
             {
               Object RESULT =null;
-
+		int typeleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).left;
+		int typeright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).right;
+		String type = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).value;
+		int idleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).value;
+		int valileft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int valiright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String vali = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		RESULT = listaVariables.add(new VariablesGlo(type,id,vali));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("variables",6, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -503,7 +591,10 @@ class CUP$Sintactico$actions {
           case 23: // elementbar ::= TITULO DOSPT CADENA PTCOMA 
             {
               Object RESULT =null;
-
+		int titleleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int titleright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String title = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		titu = title;
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("elementbar",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -512,7 +603,10 @@ class CUP$Sintactico$actions {
           case 24: // elementbar ::= TITULO DOSPT IDENTIFI PTCOMA 
             {
               Object RESULT =null;
-
+		int titleleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int titleright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String title = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		titu = title;
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("elementbar",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -539,7 +633,10 @@ class CUP$Sintactico$actions {
           case 27: // elementbar ::= TITULOX DOSPT CADENA PTCOMA 
             {
               Object RESULT =null;
-
+		int titlexleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int titlexright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String titlex = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		titux = titlex;
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("elementbar",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -548,7 +645,10 @@ class CUP$Sintactico$actions {
           case 28: // elementbar ::= TITULOX DOSPT IDENTIFI PTCOMA 
             {
               Object RESULT =null;
-
+		int titlexleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int titlexright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String titlex = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		titux = titlex;
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("elementbar",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -557,7 +657,10 @@ class CUP$Sintactico$actions {
           case 29: // elementbar ::= TITULOY DOSPT CADENA PTCOMA 
             {
               Object RESULT =null;
-
+		int titleyleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int titleyright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String titley = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		tituy = titley;
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("elementbar",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -566,7 +669,10 @@ class CUP$Sintactico$actions {
           case 30: // elementbar ::= TITULOY DOSPT IDENTIFI PTCOMA 
             {
               Object RESULT =null;
-
+		int titleyleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int titleyright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String titley = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		tituy = titley;
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("elementbar",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -593,7 +699,10 @@ class CUP$Sintactico$actions {
           case 33: // listaejexx ::= IDENTIFI 
             {
               Object RESULT =null;
-
+		int valleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int valright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String val = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		listejex.add(val);
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("listaejexx",11, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -602,7 +711,10 @@ class CUP$Sintactico$actions {
           case 34: // listaejexx ::= CADENA 
             {
               Object RESULT =null;
-
+		int valleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int valright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String val = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		listejex.add(val);
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("listaejexx",11, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -629,7 +741,10 @@ class CUP$Sintactico$actions {
           case 37: // listavall ::= IDENTIFI 
             {
               Object RESULT =null;
-
+		int val2left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int val2right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String val2 = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		listval.add(val2);
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("listavall",13, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -638,7 +753,10 @@ class CUP$Sintactico$actions {
           case 38: // listavall ::= DECIMAL 
             {
               Object RESULT =null;
-
+		int val2left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int val2right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String val2 = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		listval.add(val2);
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("listavall",13, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -647,7 +765,10 @@ class CUP$Sintactico$actions {
           case 39: // listavall ::= ENTERO 
             {
               Object RESULT =null;
-
+		int val2left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int val2right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String val2 = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		listval.add(val2);
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("listavall",13, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -656,7 +777,10 @@ class CUP$Sintactico$actions {
           case 40: // listavall ::= CADENA 
             {
               Object RESULT =null;
-
+		int val2left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int val2right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String val2 = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		listval.add(val2);
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("listavall",13, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -683,7 +807,10 @@ class CUP$Sintactico$actions {
           case 43: // elementpie ::= TITULO DOSPT CADENA PTCOMA 
             {
               Object RESULT =null;
-
+		int titleleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int titleright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String title = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		titu = title;
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("elementpie",15, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -692,7 +819,10 @@ class CUP$Sintactico$actions {
           case 44: // elementpie ::= TITULO DOSPT IDENTIFI PTCOMA 
             {
               Object RESULT =null;
-
+		int titleleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int titleright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String title = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		titu = title;
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("elementpie",15, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -737,7 +867,10 @@ class CUP$Sintactico$actions {
           case 49: // elementlin ::= TITULO DOSPT CADENA PTCOMA 
             {
               Object RESULT =null;
-
+		int titleleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int titleright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String title = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		titu = title;
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("elementlin",17, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -746,7 +879,10 @@ class CUP$Sintactico$actions {
           case 50: // elementlin ::= TITULO DOSPT IDENTIFI PTCOMA 
             {
               Object RESULT =null;
-
+		int titleleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int titleright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String title = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		titu = title;
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("elementlin",17, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -755,7 +891,10 @@ class CUP$Sintactico$actions {
           case 51: // elementlin ::= ARCHIVO DOSPT CADENA PTCOMA 
             {
               Object RESULT =null;
-
+		int archileft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int archiright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String archi = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		file = archi;
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("elementlin",17, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -764,7 +903,10 @@ class CUP$Sintactico$actions {
           case 52: // elementlin ::= ARCHIVO DOSPT IDENTIFI PTCOMA 
             {
               Object RESULT =null;
-
+		int archileft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int archiright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String archi = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		file = archi;
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("elementlin",17, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;

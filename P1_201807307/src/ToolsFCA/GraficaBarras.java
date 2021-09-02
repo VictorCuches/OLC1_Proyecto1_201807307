@@ -1,0 +1,78 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ToolsFCA;
+
+import java.util.ArrayList;
+
+/**
+ *
+ * @author vcuch
+ */
+public class GraficaBarras {
+    private String titulo;
+ 
+    private String titulox;
+    private String tituloy;
+    private ArrayList<String> ejex;
+    private ArrayList<String> valores;
+
+    public GraficaBarras(String titulo, String titulox, String tituloy, ArrayList<String> ejexx, ArrayList<String> valoress) {
+        this.titulo = titulo;
+        this.titulox = titulox;
+        this.tituloy = tituloy;
+        
+        ejex = new ArrayList<>();
+        ejex.addAll(ejexx);
+        valores = new ArrayList<>();
+        valores.addAll(valoress);
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getTitulox() {
+        return titulox;
+    }
+
+    public String getTituloy() {
+        return tituloy;
+    }
+
+    public ArrayList<String> getEjex() {
+        return ejex;
+    }
+
+    public ArrayList<String> getValores() {
+        return valores;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setTitulox(String titulox) {
+        this.titulox = titulox;
+    }
+
+    public void setTituloy(String tituloy) {
+        this.tituloy = tituloy;
+    }
+
+    public void setEjex(ArrayList<String> ejex) {
+        this.ejex = ejex;
+    }
+
+    public void setValores(ArrayList<String> valores) {
+        this.valores = valores;
+    }
+
+    
+
+    
+    
+    
+}
