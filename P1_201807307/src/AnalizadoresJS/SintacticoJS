@@ -1,0 +1,222 @@
+/*
+ * PROYECTO 1 - COMPI 1
+ * VICTOR ALEJANDRO CUCHES DE LEON
+ * 201807307
+ */
+
+package AnalizadoresJS; 
+import java_cup.runtime.*;
+
+parser code 
+{:
+    /**
+     * Método al que se llama automáticamente ante algún error sintactico.
+     **/ 
+    public void syntax_error(Symbol s){ 
+        System.out.println("Error Sintáctico en la Línea " + (s.left) +
+        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"."); 
+    } 
+
+    /**
+     * Método al que se llama automáticamente ante algún error sintáctico 
+     * en el que ya no es posible una recuperación de errores.
+     **/ 
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error síntactico irrecuperable en la Línea " + 
+        (s.left)+ " Columna "+s.right+". Componente " + s.value + 
+        " no reconocido."); 
+    }  
+:} 
+
+terminal String LLAIZQ, LLADER, PARIZQ, PARDER;
+terminal String PTCOMA, IGUAL, COMA, DOSPT, PUNTO;
+terminal String CLASS, IDENTIFI;
+terminal String VAR, LET, CONST, CADENA, ENTERO, DECIMAL, TRUE, FALSE;
+terminal String IF, ELSE;
+terminal String FOR, WHILE, DO, SWITCH, CASE, DEFAULT, BREAK;
+terminal String CONSOLE, LOG, REQUIRE;
+terminal String MAYOR, MENOR , DIFER, AND, OR;
+terminal String MAS, MENOS, POR, DIV, MOD;
+
+non terminal inicio;
+non terminal instrucciones, contenido, relleno;
+non terminal variables, tipovar, valuevar;
+non terminal metodo, paramet, paramett, contmet, contmett;
+non terminal sentencia, expresion, condicion, opelog;
+non terminal ciclofor, incremento;
+non terminal ciclowhile;
+non terminal ciclodowhile;
+non terminal sentswitch, contswitch, contswitchh;
+non terminal consola;
+non terminal callmetodo, importacion, quebrar;
+
+
+start with inicio; 
+
+
+inicio ::=  instrucciones 
+| error instrucciones
+| error
+;
+
+instrucciones ::= CLASS IDENTIFI LLAIZQ  contenido LLADER instrucciones
+| CLASS IDENTIFI LLAIZQ  contenido LLADER
+;
+
+contenido ::= contenido relleno
+| relleno
+;
+
+relleno ::= variables
+| metodo
+| callmetodo
+| importacion 
+;
+
+metodo ::= IDENTIFI PARIZQ paramet PARDER LLAIZQ contmet LLADER
+| IDENTIFI PARIZQ PARDER LLAIZQ contmet LLADER
+;
+
+contmet ::= contmet contmett
+| contmett
+;
+
+contmett ::= variables
+| sentencia
+| ciclofor
+| ciclowhile
+| ciclodowhile
+| sentswitch
+| consola
+| callmetodo
+| importacion
+| quebrar
+;
+
+
+callmetodo ::= IDENTIFI PARIZQ paramet PARDER PTCOMA
+| IDENTIFI PARIZQ paramet PARDER 
+| IDENTIFI PARIZQ PARDER PTCOMA
+| IDENTIFI PARIZQ PARDER 
+;
+
+importacion ::= tipovar IDENTIFI IGUAL REQUIRE PARIZQ CADENA PARDER PTCOMA
+| tipovar IDENTIFI IGUAL REQUIRE PARIZQ CADENA PARDER
+| IDENTIFI IGUAL REQUIRE PARIZQ CADENA PARDER PTCOMA
+| IDENTIFI IGUAL REQUIRE PARIZQ CADENA PARDER 
+;
+
+
+consola ::= CONSOLE PUNTO LOG PARIZQ CADENA PARDER PTCOMA
+| CONSOLE PUNTO LOG PARIZQ CADENA PARDER 
+| CONSOLE PUNTO LOG PARIZQ DECIMAL PARDER PTCOMA
+| CONSOLE PUNTO LOG PARIZQ DECIMAL PARDER 
+| CONSOLE PUNTO LOG PARIZQ ENTERO PARDER PTCOMA
+| CONSOLE PUNTO LOG PARIZQ ENTERO PARDER 
+| CONSOLE PUNTO LOG PARIZQ IDENTIFI PARDER PTCOMA
+| CONSOLE PUNTO LOG PARIZQ IDENTIFI PARDER 
+
+;
+
+
+
+sentswitch ::= SWITCH PARIZQ IDENTIFI PARDER LLAIZQ contswitch LLADER
+;
+
+contswitch ::= contswitch contswitchh 
+| contswitchh
+;
+
+contswitchh ::= CASE DECIMAL DOSPT contmet
+| CASE IDENTIFI DOSPT contmet
+| CASE CADENA DOSPT contmet
+| CASE ENTERO DOSPT contmet
+| DEFAULT DOSPT contmet
+;
+
+ciclodowhile ::= DO LLAIZQ contmet LLADER WHILE PARIZQ condicion PARDER PTCOMA
+| DO LLAIZQ contmet LLADER WHILE PARIZQ condicion PARDER
+| DO LLAIZQ contmet LLADER WHILE PARIZQ DIFER PARIZQ condicion PARDER PARDER PTCOMA
+| DO LLAIZQ contmet LLADER WHILE PARIZQ DIFER PARIZQ condicion PARDER PARDER
+;
+
+ciclowhile ::= WHILE PARIZQ condicion PARDER LLAIZQ contmet LLADER
+| WHILE PARIZQ DIFER PARIZQ condicion PARDER PARDER LLAIZQ contmet LLADER
+;
+
+ciclofor ::= FOR PARIZQ tipovar IDENTIFI IGUAL ENTERO PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER
+| FOR PARIZQ  IDENTIFI IGUAL ENTERO PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER
+;
+
+incremento ::= IDENTIFI MAS MAS
+| IDENTIFI MENOS MENOS
+;
+
+sentencia ::= IF PARIZQ  condicion  PARDER LLAIZQ contmet LLADER
+| IF PARIZQ condicion PARDER LLAIZQ contmet LLADER ELSE LLAIZQ contmet LLADER
+| IF PARIZQ condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion PARDER LLAIZQ contmet LLADER
+| IF PARIZQ condicion opelog condicion  PARDER LLAIZQ contmet LLADER
+| IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER ELSE LLAIZQ contmet LLADER
+| IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion PARDER LLAIZQ contmet LLADER
+| IF PARIZQ condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER
+| IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER
+
+;
+
+opelog ::= AND AND 
+| OR OR 
+| DIFER
+;
+expresion ::= IDENTIFI
+| DECIMAL 
+| ENTERO
+| CADENA
+;
+
+condicion ::= expresion MAYOR expresion
+| expresion MAYOR IGUAL expresion
+| expresion MENOR expresion
+| expresion MENOR IGUAL expresion
+| expresion IGUAL IGUAL expresion
+| expresion DIFER IGUAL expresion
+
+;
+
+
+quebrar ::= BREAK
+| BREAK PTCOMA
+;
+
+paramet ::= paramet COMA paramett
+| paramett
+;
+
+paramett ::= IDENTIFI 
+| DECIMAL
+| ENTERO
+| CADENA
+;
+
+variables ::= tipovar IDENTIFI IGUAL valuevar PTCOMA
+| tipovar IDENTIFI IGUAL valuevar
+| IDENTIFI IGUAL valuevar PTCOMA
+| IDENTIFI IGUAL valuevar
+;
+
+tipovar ::= VAR 
+| LET 
+| CONST
+;
+
+valuevar ::= ENTERO
+| DECIMAL
+| CADENA
+| TRUE
+| FALSE
+;
+
+
+
+
+
+

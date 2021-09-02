@@ -1,7 +1,7 @@
 /*
- * Ejemplo desarrollado por Erick Navarro
- * Blog: e-navarro.blogspot.com
- * Julio - 2018
+ * PROYECTO 1 - COMPI 1
+ * VICTOR ALEJANDRO CUCHES DE LEON
+ * 201807307
  */
 
 package AnalizadoresFCA; 
@@ -28,21 +28,25 @@ parser code
     }  
 :} 
 
-terminal String LLAIZQ, LLADER;
-terminal String PTCOMA;
+terminal String LLAIZQ, LLADER, CORIZQ, CORDER, PARIZQ, PARDER;
+terminal String PTCOMA, DOSPT, COMA, DOLAR;
 terminal String GEREPES;
 terminal String COMPARE, DEFGLOBAL;
+terminal String IDENTIFI, STRINGO, DOUBLE, IGUAL, DECIMAL, ENTERO;
+terminal String GRAFBARRAS, TITULO, EJEX, VALORES, TITULOX, TITULOY;
+terminal String GRAFPIE, GRAFLIN, ARCHIVO;
+terminal String CADENA, PUNESP;
 
-terminal String IDENTIFI, STRINGO, DOUBLE;
 
 
 
 non terminal inicio;
 non terminal instrucciones, relleno;
-non terminal contenido;
-non terminal variables, declaracion, convariables;
-
-
+non terminal contenido, infofile, puntaje;
+non terminal variables, declaracion;
+non terminal caracbar, elementbar, listaejex, listaejexx, listaval, listavall;
+non terminal caracpie, elementpie;
+non terminal caraclin, elementlin;
 
 start with inicio; 
 
@@ -60,9 +64,76 @@ contenido ::= contenido relleno
 ;
 
 relleno ::= DEFGLOBAL LLAIZQ declaracion LLADER 
-| COMPARE PTCOMA
-
+| COMPARE PARIZQ infofile PARDER PTCOMA
+| GRAFBARRAS LLAIZQ caracbar LLADER
+| GRAFPIE LLAIZQ caracpie LLADER
+| GRAFLIN LLAIZQ caraclin LLADER
 ;
 
-declaracion ::= STRINGO IDENTIFI PTCOMA
+infofile ::= CADENA COMA CADENA
+
+;
+declaracion ::= declaracion variables
+| variables
+;
+
+variables ::= STRINGO IDENTIFI IGUAL CADENA PTCOMA
+|  DOUBLE IDENTIFI IGUAL DECIMAL PTCOMA
+|  DOUBLE IDENTIFI IGUAL ENTERO PTCOMA
+|  DOUBLE IDENTIFI IGUAL puntaje PTCOMA
+;
+
+puntaje ::= DOLAR LLAIZQ PUNESP COMA CADENA COMA CADENA COMA CADENA  LLADER 
+;
+
+caracbar ::= caracbar elementbar
+| elementbar
+;
+
+elementbar ::= TITULO DOSPT CADENA PTCOMA        // titulo : "Grafica No. 1";
+| TITULO DOSPT IDENTIFI PTCOMA                          // titulo : variable1;
+| EJEX DOSPT CORIZQ listaejex CORDER PTCOMA
+| VALORES DOSPT CORIZQ listaval CORDER PTCOMA
+| TITULOX DOSPT CADENA PTCOMA
+| TITULOX DOSPT IDENTIFI PTCOMA
+| TITULOY DOSPT CADENA PTCOMA
+| TITULOY DOSPT IDENTIFI PTCOMA
+;
+
+listaejex ::= listaejex COMA listaejexx
+| listaejexx 
+;
+
+listaejexx ::= IDENTIFI  
+| CADENA  
+;
+
+listaval ::= listaval COMA listavall
+| listavall
+;
+
+listavall ::= IDENTIFI  
+| DECIMAL
+| ENTERO 
+| CADENA
+;
+
+caracpie ::= caracpie elementpie
+| elementpie
+;
+
+elementpie ::= TITULO DOSPT CADENA PTCOMA        // titulo : "Grafica No. 1";
+| TITULO DOSPT IDENTIFI PTCOMA 
+| EJEX DOSPT CORIZQ listaejex CORDER PTCOMA
+| VALORES DOSPT CORIZQ listaval CORDER PTCOMA
+;
+
+caraclin ::= caraclin elementlin
+| elementlin
+;
+
+elementlin ::= TITULO DOSPT CADENA PTCOMA        // titulo : "Grafica No. 1";
+| TITULO DOSPT IDENTIFI PTCOMA
+| ARCHIVO DOSPT CADENA PTCOMA 
+| ARCHIVO DOSPT IDENTIFI PTCOMA
 ;

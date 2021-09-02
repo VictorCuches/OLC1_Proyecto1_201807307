@@ -1,7 +1,7 @@
 /*
- * Ejemplo desarrollado por Erick Navarro
- * Blog: e-navarro.blogspot.com
- * Julio - 2018
+ * PROYECTO 1 - COMPI 1
+ * VICTOR ALEJANDRO CUCHES DE LEON
+ * 201807307
  */
 
 package AnalizadoresFCA;
@@ -26,22 +26,43 @@ D=[0-9]+
 DD=[0-9]+("."[  |0-9]+)?
 
 IDEN = [A-Za-z_]+[_0-9A-Za-z]*
+COMENTLINEA = ("##".*\r\n+)|("##".*\n+)|("##".*\r+)
+COMENTMULTI = "#*""/"*([^*/]|[^*]"/"|"*"[^/])*"*"*"*#"
+
+CADEN = "\""[^\"]*"\""
+
 
 
 %%
 
-
-
-
+"(" {return new Symbol(sym.PARIZQ,yyline,yychar, yytext());} 
+")" {return new Symbol(sym.PARDER,yyline,yychar, yytext());} 
 "{" {return new Symbol(sym.LLAIZQ,yyline,yychar, yytext());} 
 "}" {return new Symbol(sym.LLADER,yyline,yychar, yytext());} 
+"[" {return new Symbol(sym.CORIZQ,yyline,yychar, yytext());} 
+"]" {return new Symbol(sym.CORDER,yyline,yychar, yytext());} 
 
+"," {return new Symbol(sym.COMA,yyline,yychar, yytext());} 
+":" {return new Symbol(sym.DOSPT,yyline,yychar, yytext());} 
 ";" {return new Symbol(sym.PTCOMA,yyline,yychar, yytext());} 
+"=" {return new Symbol(sym.IGUAL,yyline,yychar, yytext());} 
+"$" {return new Symbol(sym.DOLAR,yyline,yychar, yytext());} 
+
 
 "GenerarReporteEstadistico" {return new Symbol(sym.GEREPES,yyline,yychar, yytext());}
 "compare" {return new Symbol(sym.COMPARE,yyline,yychar, yytext());}
 "definirglobales" {return new Symbol(sym.DEFGLOBAL,yyline,yychar, yytext());}
 
+"graficabarras" {return new Symbol(sym.GRAFBARRAS,yyline,yychar, yytext());}
+"graficapie" {return new Symbol(sym.GRAFPIE,yyline,yychar, yytext());}
+"graficalineas" {return new Symbol(sym.GRAFLIN,yyline,yychar, yytext());}
+"titulo" {return new Symbol(sym.TITULO,yyline,yychar, yytext());}
+"ejex" {return new Symbol(sym.EJEX,yyline,yychar, yytext());}
+"valores" {return new Symbol(sym.VALORES,yyline,yychar, yytext());}
+"titulox" {return new Symbol(sym.TITULOX,yyline,yychar, yytext());}
+"tituloy" {return new Symbol(sym.TITULOY,yyline,yychar, yytext());}
+"archivo" {return new Symbol(sym.ARCHIVO,yyline,yychar, yytext());}
+"puntajeespecifico" {return new Symbol(sym.PUNESP,yyline,yychar, yytext());}
 
 "string" {return new Symbol(sym.STRINGO,yyline,yychar, yytext());}
 "double" {return new Symbol(sym.DOUBLE,yyline,yychar, yytext());}
@@ -50,9 +71,14 @@ IDEN = [A-Za-z_]+[_0-9A-Za-z]*
 \n {yychar=1;}
 
 {BLANCOS} {} 
+{COMENTLINEA} {}
+{COMENTMULTI} {}
+
+
 {IDEN} {return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
-
-
+{CADEN} {return new Symbol(sym.CADENA,yyline,yychar, yytext());}
+{D} {return new Symbol(sym.ENTERO,yyline,yychar, yytext());}
+{DD} {return new Symbol(sym.DECIMAL,yyline,yychar, yytext());}
 
 
 

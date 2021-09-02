@@ -1,0 +1,96 @@
+/*
+ * PROYECTO 1 - COMPI 1
+ * VICTOR ALEJANDRO CUCHES DE LEON
+ * 201807307
+ */ 
+
+package AnalizadoresJS;
+import java_cup.runtime.Symbol; 
+
+%% 
+%class LexicoJS
+%public 
+%line 
+%char 
+%cup 
+%unicode
+%ignorecase
+
+%init{ 
+    yyline = 1; 
+    yychar = 1; 
+%init} 
+
+BLANCOS=[ \r\t]+
+D=[0-9]+
+DD=[0-9]+("."[  |0-9]+)?
+IDEN = [A-Za-z_]+[_0-9A-Za-z]*
+CADEN = "\""[^\"]*"\""
+
+
+
+
+%%
+
+";" {return new Symbol(sym.PTCOMA,yyline,yychar, yytext());} 
+":" {return new Symbol(sym.DOSPT,yyline,yychar, yytext());} 
+"(" {return new Symbol(sym.PARIZQ,yyline,yychar, yytext());} 
+")" {return new Symbol(sym.PARDER,yyline,yychar, yytext());} 
+"{" {return new Symbol(sym.LLAIZQ,yyline,yychar, yytext());} 
+"}" {return new Symbol(sym.LLADER,yyline,yychar, yytext());} 
+"," {return new Symbol(sym.COMA,yyline,yychar, yytext());} 
+"." {return new Symbol(sym.PUNTO,yyline,yychar, yytext());} 
+
+"+" {return new Symbol(sym.MAS,yyline,yychar, yytext());} 
+"-" {return new Symbol(sym.MENOS,yyline,yychar, yytext());} 
+"*" {return new Symbol(sym.POR,yyline,yychar, yytext());} 
+"/" {return new Symbol(sym.DIV,yyline,yychar, yytext());} 
+"%" {return new Symbol(sym.MOD,yyline,yychar, yytext());} 
+
+
+">" {return new Symbol(sym.MAYOR,yyline,yychar, yytext());} 
+"<" {return new Symbol(sym.MENOR,yyline,yychar, yytext());} 
+"!" {return new Symbol(sym.DIFER,yyline,yychar, yytext());}
+"&" {return new Symbol(sym.AND,yyline,yychar, yytext());}
+"|" {return new Symbol(sym.OR,yyline,yychar, yytext());}
+
+"=" {return new Symbol(sym.IGUAL,yyline,yychar, yytext());} 
+
+\n {yychar=1;}
+
+"class"  {return new Symbol(sym.CLASS,yyline,yychar, yytext());} 
+"var" {return new Symbol(sym.VAR,yyline,yychar, yytext());}
+"let" {return new Symbol(sym.LET,yyline,yychar, yytext());}
+"const" {return new Symbol(sym.CONST,yyline,yychar, yytext());}
+"true" {return new Symbol(sym.TRUE,yyline,yychar, yytext());}
+"false" {return new Symbol(sym.FALSE,yyline,yychar, yytext());}
+
+"if" {return new Symbol(sym.IF,yyline,yychar, yytext());}
+"else" {return new Symbol(sym.ELSE,yyline,yychar, yytext());}
+
+"for" {return new Symbol(sym.FOR,yyline,yychar, yytext());}
+"while" {return new Symbol(sym.WHILE,yyline,yychar, yytext());}
+"do" {return new Symbol(sym.DO,yyline,yychar, yytext());}
+
+"switch" {return new Symbol(sym.SWITCH,yyline,yychar, yytext());}
+"case" {return new Symbol(sym.CASE,yyline,yychar, yytext());}
+"default" {return new Symbol(sym.DEFAULT,yyline,yychar, yytext());}
+"break" {return new Symbol(sym.BREAK,yyline,yychar, yytext());}
+
+"console" {return new Symbol(sym.CONSOLE,yyline,yychar, yytext());}
+"log" {return new Symbol(sym.LOG,yyline,yychar, yytext());}
+"require" {return new Symbol(sym.REQUIRE,yyline,yychar, yytext());}
+
+{BLANCOS} {} 
+{IDEN} {return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+{CADEN} {return new Symbol(sym.CADENA,yyline,yychar, yytext());}
+{D} {return new Symbol(sym.ENTERO,yyline,yychar, yytext());}
+{DD} {return new Symbol(sym.DECIMAL,yyline,yychar, yytext());}
+
+
+
+
+. {
+    System.out.println("Este es un error lexico: "+yytext()+
+    ", en la linea: "+yyline+", en la columna: "+yychar);
+}

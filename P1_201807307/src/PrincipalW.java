@@ -11,6 +11,7 @@
 
 import AnalizadoresFCA.Lexico;
 import AnalizadoresFCA.Sintactico;
+import AnalizadoresJS.*;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
@@ -226,7 +227,19 @@ public class PrincipalW extends javax.swing.JFrame {
 
     private void EjecutarAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EjecutarAppActionPerformed
         // TODO add your handling code here:
+        // SEGMENTO DE CODIGO PARA ANALIZAR ARCHIVOS .JS
+        LexicoJS lexicojs = new LexicoJS(new BufferedReader(new StringReader(textFile)));
+        SintacticoJS sintacticojs = new SintacticoJS(lexicojs);
         
+        try{
+            sintacticojs.parse();
+            
+        } catch (Exception ex){
+            System.out.println("Error fatal en compilación de entrada.");
+            System.out.println("Causa: "+ex.getCause());
+        }
+        
+        /* SEGMENTO DE CODIGO PARA ANALIZAR ARCHIVO .FCA
         Lexico lexico = new Lexico(new BufferedReader(new StringReader(textFile)));
         Sintactico sintactico = new Sintactico(lexico);
         
@@ -237,19 +250,6 @@ public class PrincipalW extends javax.swing.JFrame {
             System.out.println("Error fatal en compilación de entrada.");
             System.out.println("Causa: "+ex.getCause());
         }
-        /*
-        System.out.println("Estoy ejecutando");
-        String path = "entrada.txt";
-                
-        AnalizadoresFCA.Sintactico pars;
-        try {
-            pars=new AnalizadoresFCA.Sintactico(new AnalizadoresFCA.Lexico(new FileInputStream(textFile)));
-            
-            pars.parse();        
-        } catch (Exception ex) {
-            System.out.println("Error fatal en compilación de entrada.");
-            System.out.println("Causa: "+ex.getCause());
-        } 
         */
         
         
