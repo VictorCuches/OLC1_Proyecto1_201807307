@@ -5,21 +5,24 @@
  */
 package Reportes;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author vcuch
  */
+public class ErroresF {
+    public static ArrayList<ErroresF> listaError = new ArrayList<ErroresF>();
 
-public class Token {
     private String lexema;
-    private String token;
+    private String tipo;
     private String linea;
     private String columna;
     private String name_archivo;
 
-    public Token(String lexema, String token, String linea, String columna, String name_archivo) {
+    public ErroresF(String lexema, String tipo, String linea, String columna, String name_archivo) {
         this.lexema = lexema;
-        this.token = token;
+        this.tipo = tipo;
         this.linea = linea;
         this.columna = columna;
         this.name_archivo = name_archivo;
@@ -29,8 +32,8 @@ public class Token {
         return lexema;
     }
 
-    public String getToken() {
-        return token;
+    public String getTipo() {
+        return tipo;
     }
 
     public String getLinea() {
@@ -49,8 +52,8 @@ public class Token {
         this.lexema = lexema;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public void setLinea(String linea) {
@@ -64,8 +67,5 @@ public class Token {
     public void setName_archivo(String name_archivo) {
         this.name_archivo = name_archivo;
     }
-    
-    
-    
     
 }

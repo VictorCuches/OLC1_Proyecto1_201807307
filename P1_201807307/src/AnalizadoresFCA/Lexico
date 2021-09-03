@@ -7,6 +7,7 @@
 package AnalizadoresFCA;
 import java_cup.runtime.Symbol; 
 
+
 %% 
 %class Lexico
 %public 
@@ -85,4 +86,6 @@ CADEN = "\""[^\"]*"\""
 . {
     System.out.println("Este es un error lexico: "+yytext()+
     ", en la linea: "+yyline+", en la columna: "+yychar);
+    
+   
 }

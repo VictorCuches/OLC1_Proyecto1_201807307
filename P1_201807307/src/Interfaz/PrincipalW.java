@@ -11,36 +11,56 @@
 
 import AnalizadoresFCA.Lexico;
 import AnalizadoresFCA.Sintactico;
+import Reportes.*;
 import static AnalizadoresFCA.Sintactico.listaBarras;
+
 import static AnalizadoresFCA.Sintactico.listaLinea;
 import static AnalizadoresFCA.Sintactico.listaPie;
 import static AnalizadoresFCA.Sintactico.listaRuta;
+import static AnalizadoresFCA.Sintactico.listaToken;
 import ToolsFCA.*;
 import static AnalizadoresFCA.Sintactico.listaVariables;
 import AnalizadoresJS.*;
+import Reportes.Token;
 import ToolsFCA.VariablesGlo;
+import java.awt.Component;
 import java.awt.Image;
+import java.awt.TextArea;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
 
 
 public class PrincipalW extends javax.swing.JFrame {
     
-   
-
-    /**
-     * Creates new form PrincipalW
-     */
-
-    String textFile ="";
+ 
+    public static ArrayList<ErroresF> listaError = new ArrayList<ErroresF>();
+    String textFile =""; // contenido archivo FCA
+    String textJS1 = ""; // contenido archivo JS1
+    String textJS2 = ""; // contenido archivo JS2
+    
     File archivoEntrada;
+    int contPes = 1;
+    
+    
     public PrincipalW() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -65,19 +85,20 @@ public class PrincipalW extends javax.swing.JFrame {
         consolaArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         verFile = new javax.swing.JTextArea();
+        Pestana = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         abrirFile = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        AgregarPest = new javax.swing.JMenuItem();
+        eliminarPes = new javax.swing.JMenuItem();
         Ejecutar = new javax.swing.JMenu();
         EjecutarApp = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        ReportError = new javax.swing.JMenuItem();
+        Estatistics = new javax.swing.JMenuItem();
         ReportToken = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
 
@@ -110,6 +131,7 @@ public class PrincipalW extends javax.swing.JFrame {
         jScrollPane2.setViewportView(verFile);
 
         VentanaPri.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 380, 320));
+        VentanaPri.add(Pestana, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 360, 260));
 
         getContentPane().add(VentanaPri, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 770, 420));
 
@@ -133,11 +155,21 @@ public class PrincipalW extends javax.swing.JFrame {
 
         jMenu2.setText("Pestaña");
 
-        jMenuItem4.setText("Agregar");
-        jMenu2.add(jMenuItem4);
+        AgregarPest.setText("Agregar");
+        AgregarPest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgregarPestActionPerformed(evt);
+            }
+        });
+        jMenu2.add(AgregarPest);
 
-        jMenuItem5.setText("Eliminar");
-        jMenu2.add(jMenuItem5);
+        eliminarPes.setText("Eliminar");
+        eliminarPes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarPesActionPerformed(evt);
+            }
+        });
+        jMenu2.add(eliminarPes);
 
         jMenuBar1.add(jMenu2);
 
@@ -160,11 +192,21 @@ public class PrincipalW extends javax.swing.JFrame {
 
         jMenu4.setText("Reportes");
 
-        jMenuItem6.setText("Errores");
-        jMenu4.add(jMenuItem6);
+        ReportError.setText("Errores");
+        ReportError.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReportErrorActionPerformed(evt);
+            }
+        });
+        jMenu4.add(ReportError);
 
-        jMenuItem7.setText("Estadistico");
-        jMenu4.add(jMenuItem7);
+        Estatistics.setText("Estadistico");
+        Estatistics.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EstatisticsActionPerformed(evt);
+            }
+        });
+        jMenu4.add(Estatistics);
 
         ReportToken.setText("Tokens");
         ReportToken.addActionListener(new java.awt.event.ActionListener() {
@@ -193,8 +235,7 @@ public class PrincipalW extends javax.swing.JFrame {
         JFileChooser JFile = new JFileChooser();
         JFile.showOpenDialog(null);
         File archivo = JFile.getSelectedFile();
-        
-        
+
         try{
             FileReader Fread = new FileReader(archivo);
             BufferedReader Bread = new BufferedReader(Fread);
@@ -239,6 +280,8 @@ public class PrincipalW extends javax.swing.JFrame {
         System.out.println("GRAFICA PIE");
         for(GraficaPie ele2: listaPie){
             System.out.println("Titulo: "+ele2.getTitulo());
+            System.out.println("Ejex; "+ele2.getEjex());
+            System.out.println("Valores: "+ele2.getValores());
         }
         System.out.println("GRAFICA LINEA");
         for(GraficaLinea ele3: listaLinea){
@@ -256,7 +299,7 @@ public class PrincipalW extends javax.swing.JFrame {
                 
         
     }//GEN-LAST:event_EjecutarActionPerformed
-
+    
     private void EjecutarAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EjecutarAppActionPerformed
         // TODO add your handling code here:
         
@@ -289,14 +332,141 @@ public class PrincipalW extends javax.swing.JFrame {
         
         
         
+        
     }//GEN-LAST:event_EjecutarAppActionPerformed
 
     private void ReportTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportTokenActionPerformed
-        // TODO add your handling code here:
+        
+        /* VER LOS TOKENS EN CONSOLA
+        for(Token ele: listaToken){
+            System.out.println("Lexema: "+ele.getLexema()+" Token: "+ele.getToken()+" Columna: "+ele.getColumna()+" Linea: "+ele.getLinea()+" Archivo: "+ele.getName_archivo());
+             
+        }
+        */
+        reportToken();
         
         
         
     }//GEN-LAST:event_ReportTokenActionPerformed
+    private void reportToken(){
+        File f;
+        FileWriter w;
+        BufferedWriter bw;
+        PrintWriter wr;
+        
+        try{
+            f = new File("Tokens.html");
+            w = new FileWriter(f);
+            bw = new BufferedWriter(w);
+            wr = new PrintWriter(bw);
+            
+            // VARIABLES QUE CONTIENEN EL CUERPO DEL HTML
+            String uno = "<html> <head> <title>Tokens - P1</title> </head> <style type=\"text/css\"> table {width: 90%; background-color: white; text-align: left; border-collapse: collapse;";
+            String dos = "}th, td{padding: 15px;} body{ background-color: #58D68D; font-family: Arial; } thead{ background-color: #246355;color: white; border-bottom: solid 5px #0F362D;} tr:nth-child(even){ background-color: #ddd ;";
+            String tres = "}tr:hover td{ background-color: #369681; color: white; } div{ background-color: #1D8348; font-family: Arial; width: 100%; } *{  margin: 0px; padding: 0px; } </style>";
+            String cuatro = "<body> <center> <div> <br> <br> <h1>REPORTE DE TOKENS</h1> <h3>Victor Alejandro Cuches de León   201807307</h3> <br> <br> </div><br> ";
+            String cinco = "<table ><thead><tr> <th>No.</th> <th>Lexema</th><th>Token</th> <th>Linea</th> <th>Columna</th> <th>Archivo</th>  </tr></thead> ";
+            String seis = "<br>\n" +"</table>\n" +"    </center>\n" +"    </body>\n" +"</html>";
+
+            wr.write("<br>");
+            wr.append(uno);
+            wr.append(dos);
+            wr.append(tres);
+            wr.append(cuatro);
+            wr.append(cinco);
+            
+            int cont = 1;
+            for(Token ele: listaToken){
+                wr.append("<tr>");
+                wr.append("<td>"+String.valueOf(cont)+"</td>");
+                wr.append("<td>"+ele.getLexema()+"</td>");
+                wr.append("<td>"+ele.getToken()+"</td>");
+                wr.append("<td>"+ele.getLinea()+"</td>");
+                wr.append("<td>"+ele.getColumna()+"</td>");
+                wr.append("<td>"+ele.getName_archivo()+"</td>");
+                wr.append("</tr>");
+                cont = cont + 1;
+            }
+            wr.append(seis);
+ 
+            wr.close();
+            bw.close();
+            
+        } catch (Exception e){
+            System.out.println("Problemichi");
+        }
+        
+    }
+    
+    private void reportError(){
+        System.out.println("Creando reporte");
+        for(ErroresF ele: listaError){
+            System.out.println("Lexema: "+ele.getLexema()+" Token: "+ele.getTipo()+" Columna: "+ele.getColumna()+" Linea: "+ele.getLinea()+" Archivo: "+ele.getName_archivo());
+             
+        }
+    }
+    private void EstatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstatisticsActionPerformed
+        Archivo a1 = new Archivo();
+        Archivo a2 = new Archivo();
+        
+        // OBTENIENDO LAS RUTAS DEL COMPARE EN EL ARCHIVO FCA
+        System.out.println("COMPARE");
+        String ruta1 = "";
+        String ruta2 = "";
+        for(CompareFile ele5: listaRuta){
+            ruta1 = ele5.getRuta1();
+            ruta2 = ele5.getRuta2();
+        }
+        
+        // MODIFICANDO LAS RUTAS PARA SER LEIDAS CORRECTAMENTE
+        ruta1 = ruta1.replace("\"", "");
+        ruta2 = ruta2.replace("\"", "");
+        ruta1 = ruta1.replace("\\", "\\\\");
+        ruta2 = ruta2.replace("\\", "\\\\");
+        
+        System.out.println("---- RUTAS -----");
+        System.out.println(ruta1);
+        System.out.println(ruta2);
+        System.out.println("---- RUTAS -----");
+        
+        textJS1 = a1.readJS(ruta1);
+        System.out.println(textJS1);
+        
+        
+      
+    }//GEN-LAST:event_EstatisticsActionPerformed
+
+    private void ReportErrorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportErrorActionPerformed
+        reportError();
+    }//GEN-LAST:event_ReportErrorActionPerformed
+
+    private void AgregarPestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarPestActionPerformed
+        
+       
+        
+        UIManager.put("OptionPane.okButtonText", "Ok");
+        UIManager.put("OptionPane.cancelButtonText", "Cancelar");
+        String nombreP = JOptionPane.showInputDialog(null, "Ingrese nombre de pestaña","Nueva pestaña",JOptionPane.INFORMATION_MESSAGE);
+        
+        if (nombreP != null){
+            //JLabel tabTitulo = New JLabel(nombreP);            
+            JPanel panel1=new JPanel();
+            JTextArea areat = new JTextArea();
+            Pestana.addTab(nombreP,areat);
+            
+        }
+        
+        contPes ++;
+    }//GEN-LAST:event_AgregarPestActionPerformed
+
+    private void eliminarPesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarPesActionPerformed
+        Component peSelec = Pestana.getSelectedComponent();
+      
+        if (peSelec != null){
+            Pestana.remove(peSelec);
+        }
+        contPes--;
+    }//GEN-LAST:event_eliminarPesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -334,12 +504,17 @@ public class PrincipalW extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AgregarPest;
     private javax.swing.JMenu Ejecutar;
     private javax.swing.JMenuItem EjecutarApp;
+    private javax.swing.JMenuItem Estatistics;
+    private javax.swing.JTabbedPane Pestana;
+    private javax.swing.JMenuItem ReportError;
     private javax.swing.JMenuItem ReportToken;
     private javax.swing.JPanel VentanaPri;
     private javax.swing.JMenuItem abrirFile;
     private javax.swing.JTextArea consolaArea;
+    private javax.swing.JMenuItem eliminarPes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
@@ -348,10 +523,6 @@ public class PrincipalW extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
