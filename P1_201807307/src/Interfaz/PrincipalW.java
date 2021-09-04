@@ -8,7 +8,7 @@
  *
  * @author vcuch
  */
-
+package Interfaz;
 import AnalizadoresFCA.Lexico;
 import AnalizadoresFCA.Sintactico;
 import Reportes.*;
@@ -46,6 +46,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.entity.StandardEntityCollection;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 
 public class PrincipalW extends javax.swing.JFrame {
@@ -204,6 +214,15 @@ public class PrincipalW extends javax.swing.JFrame {
         jMenu4.add(ReportError);
 
         Estatistics.setText("Estadistico");
+        Estatistics.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                EstatisticsAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
         Estatistics.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EstatisticsActionPerformed(evt);
@@ -502,8 +521,82 @@ public class PrincipalW extends javax.swing.JFrame {
         
     }
     private void EstatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstatisticsActionPerformed
-     
-        nombreArchivo("D:\\vcuch\\Escritorio\\ArchivosP1\\Carpetas\\Proyecto 1\\Pruebas\\Prueba1\\ProyectoA\\file_2.js");
+        // GRAFICA DE BARRAS
+        DefaultCategoryDataset datosg = new DefaultCategoryDataset();
+        datosg.setValue(5,"Barra","Victor");
+        datosg.setValue(10,"Barra","Alejo");
+        datosg.setValue(15,"Barra","Cuches");
+        datosg.setValue(20,"Barra","de León");
+        
+        JFreeChart grafB = ChartFactory.createBarChart3D(
+                "Prueba de grafica", 
+                "Horizontal",
+                "Vertical", 
+                datosg,
+                PlotOrientation.VERTICAL,
+                true,
+                true,
+                false);
+        
+        try{
+            final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+            final File file1 = new File("src/Images/GraficaPrueba.png");
+            ChartUtilities.saveChartAsPNG(file1, grafB, 600, 400, info);
+        } catch (Exception e){
+            
+        }
+        
+        // GRAFICA DE PIE 
+        DefaultPieDataset datopie = new DefaultPieDataset();
+        datopie.setValue("Compi", 45);
+        datopie.setValue("Arqui", 22);
+        datopie.setValue("Archivos", 89);
+        datopie.setValue("Teo", 15);
+        
+        JFreeChart grafPie = ChartFactory.createPieChart(
+                "Cursos 2S2021", 
+                datopie,
+                true,
+                true,
+                false);
+        
+        try{
+            final ChartRenderingInfo info2 = new ChartRenderingInfo(new StandardEntityCollection());
+            final File file2 = new File("src/Images/GraficaPie.png");
+            ChartUtilities.saveChartAsPNG(file2, grafPie, 600, 400, info2);
+        } catch (Exception e){
+            
+        }
+        
+        //GRAFICA DE LINEAS
+        XYSeries dato3 = new XYSeries("Grafica 1");
+        dato3.add(4,8);
+        dato3.add(5,4);
+        dato3.add(1,6);
+        dato3.add(5,10);
+        
+        XYSeriesCollection obDa = new XYSeriesCollection();
+        obDa.addSeries(dato3);
+        JFreeChart grafLin = ChartFactory.createXYLineChart( "Titulo de grafico",
+        "Horizontal",
+        "Vertical",
+        obDa,
+        PlotOrientation.VERTICAL,
+        true,
+        false,
+        false);
+        try{
+            final ChartRenderingInfo info3 = new ChartRenderingInfo(new StandardEntityCollection());
+            final File file3 = new File("src/Images/GraficaLinea.png");
+            ChartUtilities.saveChartAsPNG(file3, grafLin, 600, 400, info3);
+        } catch (Exception e){
+            
+        }
+       
+        
+        
+        
+        
         
         
         
@@ -541,6 +634,10 @@ public class PrincipalW extends javax.swing.JFrame {
         }
         contPes--;
     }//GEN-LAST:event_eliminarPesActionPerformed
+
+    private void EstatisticsAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_EstatisticsAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EstatisticsAncestorAdded
 
     /**
      * @param args the command line arguments

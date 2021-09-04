@@ -36,7 +36,7 @@ terminal String IF, ELSE;
 terminal String FOR, WHILE, DO, SWITCH, CASE, DEFAULT, BREAK;
 terminal String CONSOLE, LOG, REQUIRE;
 terminal String MAYOR, MENOR , DIFER, AND, OR;
-terminal String MAS, MENOS, POR, DIV, MOD;
+terminal String MAS, MENOS, POR, DIV, MOD, POTE, UMENOS;
 terminal String COMENTUNO, COMENTMUL;
 
 non terminal inicio;
@@ -51,6 +51,10 @@ non terminal sentswitch, contswitch, contswitchh;
 non terminal consola;
 non terminal callmetodo, importacion, quebrar;
 
+precedence left MAS,MENOS,MOD;
+precedence left POR,DIV;
+precedence left POTE;
+precedence right UMENOS; 
 
 start with inicio; 
 
@@ -64,6 +68,7 @@ instrucciones ::= CLASS IDENTIFI LLAIZQ  contenido LLADER instrucciones
 | CLASS IDENTIFI LLAIZQ  contenido LLADER
 | COMENTUNO instrucciones
 | COMENTMUL instrucciones
+| error LLADER
 ;
 
 contenido ::= contenido relleno
@@ -105,6 +110,7 @@ callmetodo ::= IDENTIFI PARIZQ paramet PARDER PTCOMA
 | IDENTIFI PARIZQ paramet PARDER 
 | IDENTIFI PARIZQ PARDER PTCOMA
 | IDENTIFI PARIZQ PARDER 
+
 ;
 
 importacion ::= tipovar IDENTIFI IGUAL REQUIRE PARIZQ CADENA PARDER PTCOMA
@@ -145,10 +151,12 @@ ciclodowhile ::= DO LLAIZQ contmet LLADER WHILE PARIZQ condicion PARDER PTCOMA
 | DO LLAIZQ contmet LLADER WHILE PARIZQ condicion PARDER
 | DO LLAIZQ contmet LLADER WHILE PARIZQ DIFER PARIZQ condicion PARDER PARDER PTCOMA
 | DO LLAIZQ contmet LLADER WHILE PARIZQ DIFER PARIZQ condicion PARDER PARDER
+
 ;
 
 ciclowhile ::= WHILE PARIZQ condicion PARDER LLAIZQ contmet LLADER
 | WHILE PARIZQ DIFER PARIZQ condicion PARDER PARDER LLAIZQ contmet LLADER
+
 ;
 
 ciclofor ::= FOR PARIZQ tipovar IDENTIFI IGUAL ENTERO PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER
@@ -169,13 +177,14 @@ sentencia ::= IF PARIZQ  condicion  PARDER LLAIZQ contmet LLADER
 | IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion PARDER LLAIZQ contmet LLADER
 | IF PARIZQ condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER
 | IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER
-
 ;
 
 opelog ::= AND AND 
 | OR OR 
 | DIFER
+| DIFER IGUAL
 ;
+
 expresion ::= IDENTIFI
 | DECIMAL 
 | ENTERO
@@ -188,7 +197,6 @@ condicion ::= expresion MAYOR expresion
 | expresion MENOR IGUAL expresion
 | expresion IGUAL IGUAL expresion
 | expresion DIFER IGUAL expresion
-
 ;
 
 
@@ -204,6 +212,7 @@ paramett ::= IDENTIFI
 | DECIMAL
 | ENTERO
 | CADENA
+
 ;
 
 variables ::= tipovar IDENTIFI IGUAL valuevar PTCOMA
@@ -224,8 +233,8 @@ valuevar ::= ENTERO
 | CADENA
 | TRUE
 | FALSE
-;
 
+;
 
 
 
