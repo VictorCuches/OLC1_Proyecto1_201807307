@@ -13,7 +13,6 @@ import AnalizadoresFCA.Lexico;
 import AnalizadoresFCA.Sintactico;
 import Reportes.*;
 import static AnalizadoresFCA.Sintactico.listaBarras;
-
 import static AnalizadoresFCA.Sintactico.listaLinea;
 import static AnalizadoresFCA.Sintactico.listaPie;
 import static AnalizadoresFCA.Sintactico.listaRuta;
@@ -53,6 +52,10 @@ public class PrincipalW extends javax.swing.JFrame {
     
  
     public static ArrayList<ErroresF> listaError = new ArrayList<ErroresF>();
+    public static String js_file1 = "";
+    public static String js_file2 = "";
+    public static String fca_file = "";
+    
     String textFile =""; // contenido archivo FCA
     String textJS1 = ""; // contenido archivo JS1
     String textJS2 = ""; // contenido archivo JS2
@@ -100,7 +103,7 @@ public class PrincipalW extends javax.swing.JFrame {
         ReportError = new javax.swing.JMenuItem();
         Estatistics = new javax.swing.JMenuItem();
         ReportToken = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
+        reportJSON = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -216,13 +219,13 @@ public class PrincipalW extends javax.swing.JFrame {
         });
         jMenu4.add(ReportToken);
 
-        jMenuItem9.setText("JSON");
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+        reportJSON.setText("JSON");
+        reportJSON.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem9ActionPerformed(evt);
+                reportJSONActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem9);
+        jMenu4.add(reportJSON);
 
         jMenuBar1.add(jMenu4);
 
@@ -263,7 +266,7 @@ public class PrincipalW extends javax.swing.JFrame {
         }   
     }//GEN-LAST:event_abrirFileActionPerformed
 
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+    private void reportJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportJSONActionPerformed
         // TODO add your handling code here:
         System.out.println("-------------INFORMACION GUARDADA----------------");
         System.out.println("VARIABLES ");
@@ -292,7 +295,7 @@ public class PrincipalW extends javax.swing.JFrame {
             System.out.println("Ruta1: "+ele5.getRuta1()+" Ruta2: "+ele5.getRuta2());
         }
         
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
+    }//GEN-LAST:event_reportJSONActionPerformed
 
     private void EjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EjecutarActionPerformed
                 // TODO add your handling code here:
@@ -326,6 +329,9 @@ public class PrincipalW extends javax.swing.JFrame {
             System.out.println("Error fatal en compilación de entrada.");
             System.out.println("Causa: "+ex.getCause());
         }
+        
+        
+        analizarJS();
         
         
         
@@ -405,7 +411,7 @@ public class PrincipalW extends javax.swing.JFrame {
              
         }
     }
-    private void EstatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstatisticsActionPerformed
+    private void analizarJS(){
         Archivo a1 = new Archivo();
         Archivo a2 = new Archivo();
         
@@ -418,19 +424,87 @@ public class PrincipalW extends javax.swing.JFrame {
             ruta2 = ele5.getRuta2();
         }
         
+        
         // MODIFICANDO LAS RUTAS PARA SER LEIDAS CORRECTAMENTE
         ruta1 = ruta1.replace("\"", "");
         ruta2 = ruta2.replace("\"", "");
         ruta1 = ruta1.replace("\\", "\\\\");
         ruta2 = ruta2.replace("\\", "\\\\");
         
-        System.out.println("---- RUTAS -----");
-        System.out.println(ruta1);
-        System.out.println(ruta2);
-        System.out.println("---- RUTAS -----");
+       
+        // nombre de archivos cargados para mostrarlo en reporte de tokens y errores
+        js_file1 = nombreArchivo(ruta1);
+        js_file2 = nombreArchivo(ruta2);
+        
+        System.out.println("Nombre 1: "+js_file1+" Nombre 2: "+js_file2);
+        
         
         textJS1 = a1.readJS(ruta1);
+        textJS2 = a1.readJS(ruta2);
+        
+        
+       
+        envioAnalisis(textJS1);
+        //envioAnalisis(textJS2);
+        
+        /*
         System.out.println(textJS1);
+        System.out.println("-----------------------------------------------------------------------------------");
+        System.out.println(textJS2);
+        */
+        
+    }
+    
+    private void envioAnalisis(String contjs){
+        LexicoJS lexicojs = new LexicoJS(new BufferedReader(new StringReader(contjs)));
+        SintacticoJS sintacticojs = new SintacticoJS(lexicojs);
+        try{
+            sintacticojs.parse();
+            
+        } catch (Exception ex){
+            System.out.println("Error fatal en compilación de entrada.");
+            System.out.println("Causa: "+ex.getCause());
+        }        
+    }
+    
+    private String nombreArchivo(String name){
+        //"D:\vcuch\Escritorio\ArchivosP1\Carpetas\Proyecto 1\Pruebas\Prueba1\ProyectoA\file_2.js", 
+        //"D:\vcuch\Escritorio\ArchivosP1\Carpetas\Proyecto 1\Pruebas\Prueba1\ProyectoA\file_1.js"
+        char [] arrayRuta;
+        arrayRuta = name.toCharArray();
+        int contador = 0;
+        int cont2 = 0;
+        String cadenaF = "";
+        for (int i = 0; i < arrayRuta.length; i++){
+            //System.out.println(arrayRuta[i]);
+            if(arrayRuta[i] == '\\'){
+                contador++;
+            }
+        }
+        //System.out.println(contador);
+        // recogiendo nombre del archivo
+        
+        
+        for(int j = 0; j < arrayRuta.length; j++){
+            
+             if(cont2 == contador){
+                cadenaF = cadenaF + String.valueOf(arrayRuta[j]);  
+            }   
+            if (arrayRuta[j] == '\\'){
+                cont2++;
+            }
+            
+        }
+        //System.out.println("Nombre de archivo: "+cadenaF);
+        return cadenaF;
+        
+        
+        
+    }
+    private void EstatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstatisticsActionPerformed
+     
+        nombreArchivo("D:\\vcuch\\Escritorio\\ArchivosP1\\Carpetas\\Proyecto 1\\Pruebas\\Prueba1\\ProyectoA\\file_2.js");
+        
         
         
       
@@ -523,9 +597,9 @@ public class PrincipalW extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JMenuItem reportJSON;
     private javax.swing.JTextArea verFile;
     // End of variables declaration//GEN-END:variables
 }

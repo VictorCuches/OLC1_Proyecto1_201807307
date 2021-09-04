@@ -12,6 +12,7 @@ public class sym {
   public static final int CONST = 15;
   public static final int ENTERO = 17;
   public static final int CASE = 27;
+  public static final int COMENTMUL = 44;
   public static final int DOSPT = 9;
   public static final int FOR = 23;
   public static final int AND = 36;
@@ -25,6 +26,7 @@ public class sym {
   public static final int PARIZQ = 4;
   public static final int DECIMAL = 18;
   public static final int TRUE = 19;
+  public static final int COMENTUNO = 43;
   public static final int error = 1;
   public static final int COMA = 8;
   public static final int CADENA = 16;
@@ -94,7 +96,9 @@ public class sym {
   "MENOS",
   "POR",
   "DIV",
-  "MOD"
+  "MOD",
+  "COMENTUNO",
+  "COMENTMUL"
   };
 }
 

@@ -33,7 +33,7 @@ parser code
     public void syntax_error(Symbol s){ 
         System.out.println("Error Sintáctico en la Línea " + (s.left) +
         " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"."); 
-        Interfaz.PrincipalW.listaError.add(new ErroresF(s.value.toString(),"Error sintactico",String.valueOf(s.left), String.valueOf(s.right), "Archivo .fca"));
+        //Interfaz.PrincipalW.listaError.add(new ErroresF(s.value.toString(),"Error sintactico",String.valueOf(s.left), String.valueOf(s.right), "Archivo .fca"));
       
     } 
 
@@ -45,7 +45,7 @@ parser code
         System.out.println("Error síntactico irrecuperable en la Línea " + 
         (s.left)+ " Columna "+s.right+". Componente " + s.value + 
         " no reconocido."); 
-      Interfaz.PrincipalW.listaError.add(new ErroresF(s.value.toString(),"Error sintactico",String.valueOf(s.left), String.valueOf(s.right), "Archivo fca"));
+      //Interfaz.PrincipalW.listaError.add(new ErroresF(s.value.toString(),"Error sintactico",String.valueOf(s.left), String.valueOf(s.right), "Archivo fca"));
        
     }  
     
@@ -209,8 +209,6 @@ terminal String GRAFBARRAS, TITULO, EJEX, VALORES, TITULOX, TITULOY;
 terminal String GRAFPIE, GRAFLIN, ARCHIVO;
 terminal String CADENA, PUNESP;
 
-
-
 non terminal inicio;
 non terminal instrucciones, relleno;
 non terminal contenido, infofile, puntaje;
@@ -231,6 +229,7 @@ instrucciones ::= GEREPES LLAIZQ contenido LLADER instrucciones
 {:saveToken("gerepes",String.valueOf(aleft), String.valueOf(aright));
 saveToken("lla",String.valueOf(bleft), String.valueOf(bright));
 saveToken("llac",String.valueOf(cleft), String.valueOf(cright));:} 
+| error LLADER
 ;
 
 contenido ::= contenido relleno
@@ -267,6 +266,8 @@ saveToken("graflin",String.valueOf(aleft), String.valueOf(aright));
 saveToken("lla",String.valueOf(bleft), String.valueOf(bright));
 saveToken("llac",String.valueOf(cleft), String.valueOf(cright));
 :}
+| error LLADER
+| error PTCOMA
 ;
 
 infofile ::= CADENA:a COMA:c CADENA:b
@@ -275,6 +276,7 @@ saveToken("coma",String.valueOf(cleft), String.valueOf(cright));
 saveToken2("root",a.toString(),String.valueOf(aleft), String.valueOf(aright));
 saveToken2("root",b.toString(),String.valueOf(bleft), String.valueOf(bright));
 :}
+| error PARDER
 ;
 
 declaracion ::= declaracion variables
@@ -311,10 +313,11 @@ saveToken2("ident",id.toString(),String.valueOf(idleft), String.valueOf(idright)
 saveToken("igual",String.valueOf(aleft), String.valueOf(aright));
 saveToken("ptc",String.valueOf(bleft), String.valueOf(bright));
 :}
+| error PTCOMA
 ;
 
 puntaje ::= DOLAR:a LLAIZQ:b PUNESP:c COMA:d CADENA:e COMA:f CADENA:g COMA:h CADENA:i  LLADER:j
-
+| error LLADER
 ;
 
 caracbar ::= caracbar elementbar
@@ -378,6 +381,7 @@ saveToken("dpt",String.valueOf(bleft), String.valueOf(bright));
 saveToken2("ident",titley.toString(),String.valueOf(titleyleft), String.valueOf(titleyright));
 saveToken("ptc",String.valueOf(cleft), String.valueOf(cright));
 :}
+| error PTCOMA
 ;
 
 listaejex ::= listaejex COMA listaejexx
@@ -392,6 +396,7 @@ saveToken2("ident",val.toString(),String.valueOf(valleft), String.valueOf(valrig
 {:listejex.add(val);
 saveToken2("caden",val.toString(),String.valueOf(valleft), String.valueOf(valright));
 :}
+| error PARDER
 ;
 
 listaval ::= listaval COMA listavall
@@ -414,6 +419,7 @@ saveToken2("ent",val2.toString(),String.valueOf(val2left), String.valueOf(val2ri
 {:listval.add(val2);
 saveToken2("caden",val2.toString(),String.valueOf(val2left), String.valueOf(val2right));
 :} 
+| error PTCOMA
 ;
 
 caracpie ::= caracpie elementpie
@@ -448,6 +454,7 @@ saveToken("cora",String.valueOf(cleft), String.valueOf(cright));
 saveToken("corc",String.valueOf(dleft), String.valueOf(dright));
 saveToken("ptc",String.valueOf(eleft), String.valueOf(eright));
 :}
+| error PTCOMA
 ;
 
 caraclin ::= caraclin elementlin
@@ -482,4 +489,5 @@ saveToken("dpt",String.valueOf(bleft), String.valueOf(bright));
 saveToken("ptc",String.valueOf(cleft), String.valueOf(cright));
 saveToken2("ident",archi.toString(),String.valueOf(archileft), String.valueOf(archiright));
 :}
+| error PTCOMA
 ;

@@ -37,6 +37,7 @@ terminal String FOR, WHILE, DO, SWITCH, CASE, DEFAULT, BREAK;
 terminal String CONSOLE, LOG, REQUIRE;
 terminal String MAYOR, MENOR , DIFER, AND, OR;
 terminal String MAS, MENOS, POR, DIV, MOD;
+terminal String COMENTUNO, COMENTMUL;
 
 non terminal inicio;
 non terminal instrucciones, contenido, relleno;
@@ -61,6 +62,8 @@ inicio ::=  instrucciones
 
 instrucciones ::= CLASS IDENTIFI LLAIZQ  contenido LLADER instrucciones
 | CLASS IDENTIFI LLAIZQ  contenido LLADER
+| COMENTUNO instrucciones
+| COMENTMUL instrucciones
 ;
 
 contenido ::= contenido relleno
@@ -71,6 +74,8 @@ relleno ::= variables
 | metodo
 | callmetodo
 | importacion 
+| COMENTUNO
+| COMENTMUL
 ;
 
 metodo ::= IDENTIFI PARIZQ paramet PARDER LLAIZQ contmet LLADER
@@ -91,6 +96,8 @@ contmett ::= variables
 | callmetodo
 | importacion
 | quebrar
+| COMENTUNO
+| COMENTMUL
 ;
 
 
@@ -145,7 +152,9 @@ ciclowhile ::= WHILE PARIZQ condicion PARDER LLAIZQ contmet LLADER
 ;
 
 ciclofor ::= FOR PARIZQ tipovar IDENTIFI IGUAL ENTERO PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER
+| FOR PARIZQ tipovar IDENTIFI IGUAL IDENTIFI PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER
 | FOR PARIZQ  IDENTIFI IGUAL ENTERO PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER
+| FOR PARIZQ IDENTIFI IGUAL IDENTIFI PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER
 ;
 
 incremento ::= IDENTIFI MAS MAS
@@ -201,6 +210,8 @@ variables ::= tipovar IDENTIFI IGUAL valuevar PTCOMA
 | tipovar IDENTIFI IGUAL valuevar
 | IDENTIFI IGUAL valuevar PTCOMA
 | IDENTIFI IGUAL valuevar
+| IDENTIFI IGUAL IDENTIFI PTCOMA
+| IDENTIFI IGUAL IDENTIFI
 ;
 
 tipovar ::= VAR 
