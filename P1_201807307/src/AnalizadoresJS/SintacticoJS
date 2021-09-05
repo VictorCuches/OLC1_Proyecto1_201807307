@@ -7,8 +7,10 @@
 package AnalizadoresJS; 
 import java_cup.runtime.*;
 
+
 parser code 
 {:
+    
     /**
      * Método al que se llama automáticamente ante algún error sintactico.
      **/ 
@@ -26,6 +28,7 @@ parser code
         (s.left)+ " Columna "+s.right+". Componente " + s.value + 
         " no reconocido."); 
     }  
+    
 :} 
 
 terminal String LLAIZQ, LLADER, PARIZQ, PARDER;

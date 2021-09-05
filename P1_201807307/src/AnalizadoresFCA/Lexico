@@ -6,6 +6,8 @@
 
 package AnalizadoresFCA;
 import java_cup.runtime.Symbol; 
+import Interfaz.*;
+import Reportes.*;
 
 
 %% 
@@ -86,6 +88,7 @@ CADEN = "\""[^\"]*"\""
 . {
     System.out.println("Este es un error lexico: "+yytext()+
     ", en la linea: "+yyline+", en la columna: "+yychar);
+    Interfaz.PrincipalW.listaError.add(new ErroresF(yytext().toString(),"Error Lexico: Simbolo no reconocido",String.valueOf(yyline), String.valueOf(yychar), "Archivo fca"));
     
    
 }

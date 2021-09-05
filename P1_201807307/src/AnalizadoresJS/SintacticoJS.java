@@ -713,6 +713,7 @@ public class SintacticoJS extends java_cup.runtime.lr_parser {
 
 
 
+    
     /**
      * Método al que se llama automáticamente ante algún error sintactico.
      **/ 
@@ -730,6 +731,7 @@ public class SintacticoJS extends java_cup.runtime.lr_parser {
         (s.left)+ " Columna "+s.right+". Componente " + s.value + 
         " no reconocido."); 
     }  
+    
 
 
 /** Cup generated class to encapsulate user supplied action code.*/

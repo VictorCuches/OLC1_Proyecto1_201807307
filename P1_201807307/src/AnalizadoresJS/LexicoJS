@@ -6,6 +6,8 @@
 
 package AnalizadoresJS;
 import java_cup.runtime.Symbol; 
+import static AnalizadoresFCA.Sintactico.listaToken;
+import Reportes.*;
 
 %% 
 %class LexicoJS
@@ -31,60 +33,143 @@ COMENTMULTI = "/*""/"*([^*/]|[^*]"/"|"*"[^/])*"*"*"*/"
 
 %%
 
-";" {return new Symbol(sym.PTCOMA,yyline,yychar, yytext());} 
-":" {return new Symbol(sym.DOSPT,yyline,yychar, yytext());} 
-"(" {return new Symbol(sym.PARIZQ,yyline,yychar, yytext());} 
-")" {return new Symbol(sym.PARDER,yyline,yychar, yytext());} 
-"{" {return new Symbol(sym.LLAIZQ,yyline,yychar, yytext());} 
-"}" {return new Symbol(sym.LLADER,yyline,yychar, yytext());} 
-"," {return new Symbol(sym.COMA,yyline,yychar, yytext());} 
-"." {return new Symbol(sym.PUNTO,yyline,yychar, yytext());} 
 
-"+" {return new Symbol(sym.MAS,yyline,yychar, yytext());} 
-"-" {return new Symbol(sym.MENOS,yyline,yychar, yytext());} 
-"*" {return new Symbol(sym.POR,yyline,yychar, yytext());} 
-"/" {return new Symbol(sym.DIV,yyline,yychar, yytext());} 
-"%" {return new Symbol(sym.MOD,yyline,yychar, yytext());} 
+";" 
+{listaToken.add(new Token(yytext(), "Punto y coma", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.PTCOMA,yyline,yychar, yytext());} 
+":" 
+{listaToken.add(new Token(yytext(), "Dos puntos", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.DOSPT,yyline,yychar, yytext());} 
+"(" 
+{listaToken.add(new Token(yytext(), "Parentesis abierto", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.PARIZQ,yyline,yychar, yytext());} 
+")" 
+{listaToken.add(new Token(yytext(), "Parentesis cerrado", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.PARDER,yyline,yychar, yytext());} 
+"{" 
+{listaToken.add(new Token(yytext(), "Llave abierta", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.LLAIZQ,yyline,yychar, yytext());} 
+"}" 
+{listaToken.add(new Token(yytext(), "Llave cerrada", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.LLADER,yyline,yychar, yytext());} 
+"," 
+{listaToken.add(new Token(yytext(), "Coma", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.COMA,yyline,yychar, yytext());} 
+"." 
+{listaToken.add(new Token(yytext(), "Punto", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.PUNTO,yyline,yychar, yytext());} 
+
+"+" 
+{listaToken.add(new Token(yytext(), "Signo mas", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.MAS,yyline,yychar, yytext());} 
+"-" 
+{listaToken.add(new Token(yytext(), "Signo menos", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.MENOS,yyline,yychar, yytext());} 
+"*" 
+{listaToken.add(new Token(yytext(), "Asterisco", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.POR,yyline,yychar, yytext());} 
+"/" 
+{listaToken.add(new Token(yytext(), "Signo division", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.DIV,yyline,yychar, yytext());} 
+"%" 
+{listaToken.add(new Token(yytext(), "Signo porcentaje", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.MOD,yyline,yychar, yytext());} 
 
 
-">" {return new Symbol(sym.MAYOR,yyline,yychar, yytext());} 
-"<" {return new Symbol(sym.MENOR,yyline,yychar, yytext());} 
-"!" {return new Symbol(sym.DIFER,yyline,yychar, yytext());}
-"&" {return new Symbol(sym.AND,yyline,yychar, yytext());}
-"|" {return new Symbol(sym.OR,yyline,yychar, yytext());}
+">" 
+{listaToken.add(new Token(yytext(), "Mayor que", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.MAYOR,yyline,yychar, yytext());} 
+"<" 
+{listaToken.add(new Token(yytext(), "Menor que", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.MENOR,yyline,yychar, yytext());} 
+"!" 
+{listaToken.add(new Token(yytext(), "Diferente", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.DIFER,yyline,yychar, yytext());}
+"&" 
+{listaToken.add(new Token(yytext(), "AND", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.AND,yyline,yychar, yytext());}
+"|" 
+{listaToken.add(new Token(yytext(), "OR", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.OR,yyline,yychar, yytext());}
 
-"=" {return new Symbol(sym.IGUAL,yyline,yychar, yytext());} 
+"=" 
+{listaToken.add(new Token(yytext(), "Signo igual", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IGUAL,yyline,yychar, yytext());} 
 
 \n {yychar=1;}
 
-"class"  {return new Symbol(sym.CLASS,yyline,yychar, yytext());} 
-"var" {return new Symbol(sym.VAR,yyline,yychar, yytext());}
-"let" {return new Symbol(sym.LET,yyline,yychar, yytext());}
-"const" {return new Symbol(sym.CONST,yyline,yychar, yytext());}
-"true" {return new Symbol(sym.TRUE,yyline,yychar, yytext());}
-"false" {return new Symbol(sym.FALSE,yyline,yychar, yytext());}
+"class"  
+{listaToken.add(new Token(yytext(), "pr_class", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.CLASS,yyline,yychar, yytext());} 
+"var" 
+{listaToken.add(new Token(yytext(), "pr_var", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.VAR,yyline,yychar, yytext());}
+"let" 
+{listaToken.add(new Token(yytext(), "pr_let", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.LET,yyline,yychar, yytext());}
+"const" 
+{listaToken.add(new Token(yytext(), "pr_const", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.CONST,yyline,yychar, yytext());}
+"true" 
+{listaToken.add(new Token(yytext(), "pr_true", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.TRUE,yyline,yychar, yytext());}
+"false" 
+{listaToken.add(new Token(yytext(), "pr_false", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.FALSE,yyline,yychar, yytext());}
 
-"if" {return new Symbol(sym.IF,yyline,yychar, yytext());}
-"else" {return new Symbol(sym.ELSE,yyline,yychar, yytext());}
+"if" 
+{listaToken.add(new Token(yytext(), "pr_if", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IF,yyline,yychar, yytext());}
+"else" 
+{listaToken.add(new Token(yytext(), "pr_else", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.ELSE,yyline,yychar, yytext());}
 
-"for" {return new Symbol(sym.FOR,yyline,yychar, yytext());}
-"while" {return new Symbol(sym.WHILE,yyline,yychar, yytext());}
-"do" {return new Symbol(sym.DO,yyline,yychar, yytext());}
+"for" 
+{listaToken.add(new Token(yytext(), "pr_for", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.FOR,yyline,yychar, yytext());}
+"while" 
+{listaToken.add(new Token(yytext(), "pr_while", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.WHILE,yyline,yychar, yytext());}
+"do" 
+{listaToken.add(new Token(yytext(), "pr_do", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.DO,yyline,yychar, yytext());}
 
-"switch" {return new Symbol(sym.SWITCH,yyline,yychar, yytext());}
-"case" {return new Symbol(sym.CASE,yyline,yychar, yytext());}
-"default" {return new Symbol(sym.DEFAULT,yyline,yychar, yytext());}
-"break" {return new Symbol(sym.BREAK,yyline,yychar, yytext());}
+"switch" 
+{listaToken.add(new Token(yytext(), "pr_switch", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.SWITCH,yyline,yychar, yytext());}
+"case" 
+{listaToken.add(new Token(yytext(), "pr_case", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.CASE,yyline,yychar, yytext());}
+"default" 
+{listaToken.add(new Token(yytext(), "pr_default", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.DEFAULT,yyline,yychar, yytext());}
+"break" 
+{listaToken.add(new Token(yytext(), "pr_break", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.BREAK,yyline,yychar, yytext());}
 
-"console" {return new Symbol(sym.CONSOLE,yyline,yychar, yytext());}
-"log" {return new Symbol(sym.LOG,yyline,yychar, yytext());}
-"require" {return new Symbol(sym.REQUIRE,yyline,yychar, yytext());}
+"console" 
+{listaToken.add(new Token(yytext(), "pr_console", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.CONSOLE,yyline,yychar, yytext());}
+"log" 
+{listaToken.add(new Token(yytext(), "pr_log", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.LOG,yyline,yychar, yytext());}
+"require" 
+{listaToken.add(new Token(yytext(), "pr_require", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.REQUIRE,yyline,yychar, yytext());}
 
 {BLANCOS} {} 
-{IDEN} {return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
-{CADEN} {return new Symbol(sym.CADENA,yyline,yychar, yytext());}
-{D} {return new Symbol(sym.ENTERO,yyline,yychar, yytext());}
-{DD} {return new Symbol(sym.DECIMAL,yyline,yychar, yytext());}
+{IDEN} 
+{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+{CADEN} 
+{listaToken.add(new Token(yytext(), "Cadena", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.CADENA,yyline,yychar, yytext());}
+{D} 
+{listaToken.add(new Token(yytext(), "Numero entero", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.ENTERO,yyline,yychar, yytext());}
+{DD} 
+{listaToken.add(new Token(yytext(), "Numero decimal", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.DECIMAL,yyline,yychar, yytext());}
 
 {COMENTLINEA} {return new Symbol(sym.COMENTUNO,yyline,yychar, yytext());}
 {COMENTMULTI} {return new Symbol(sym.COMENTMUL,yyline,yychar, yytext());}

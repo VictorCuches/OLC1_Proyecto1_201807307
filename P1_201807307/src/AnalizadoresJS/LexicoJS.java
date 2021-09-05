@@ -5,6 +5,8 @@
  */ 
 package AnalizadoresJS;
 import java_cup.runtime.Symbol; 
+import static AnalizadoresFCA.Sintactico.listaToken;
+import Reportes.*;
 
 
 public class LexicoJS implements java_cup.runtime.Scanner {
@@ -420,79 +422,98 @@ public class LexicoJS implements java_cup.runtime.Scanner {
 					case -2:
 						break;
 					case 2:
-						{return new Symbol(sym.PTCOMA,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Punto y coma", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.PTCOMA,yyline,yychar, yytext());}
 					case -3:
 						break;
 					case 3:
-						{return new Symbol(sym.DOSPT,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Dos puntos", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.DOSPT,yyline,yychar, yytext());}
 					case -4:
 						break;
 					case 4:
-						{return new Symbol(sym.PARIZQ,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Parentesis abierto", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.PARIZQ,yyline,yychar, yytext());}
 					case -5:
 						break;
 					case 5:
-						{return new Symbol(sym.PARDER,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Parentesis cerrado", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.PARDER,yyline,yychar, yytext());}
 					case -6:
 						break;
 					case 6:
-						{return new Symbol(sym.LLAIZQ,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Llave abierta", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.LLAIZQ,yyline,yychar, yytext());}
 					case -7:
 						break;
 					case 7:
-						{return new Symbol(sym.LLADER,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Llave cerrada", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.LLADER,yyline,yychar, yytext());}
 					case -8:
 						break;
 					case 8:
-						{return new Symbol(sym.COMA,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Coma", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.COMA,yyline,yychar, yytext());}
 					case -9:
 						break;
 					case 9:
-						{return new Symbol(sym.PUNTO,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Punto", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.PUNTO,yyline,yychar, yytext());}
 					case -10:
 						break;
 					case 10:
-						{return new Symbol(sym.MAS,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Signo mas", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.MAS,yyline,yychar, yytext());}
 					case -11:
 						break;
 					case 11:
-						{return new Symbol(sym.MENOS,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Signo menos", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.MENOS,yyline,yychar, yytext());}
 					case -12:
 						break;
 					case 12:
-						{return new Symbol(sym.POR,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Asterisco", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.POR,yyline,yychar, yytext());}
 					case -13:
 						break;
 					case 13:
-						{return new Symbol(sym.DIV,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Signo division", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.DIV,yyline,yychar, yytext());}
 					case -14:
 						break;
 					case 14:
-						{return new Symbol(sym.MOD,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Signo porcentaje", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.MOD,yyline,yychar, yytext());}
 					case -15:
 						break;
 					case 15:
-						{return new Symbol(sym.MAYOR,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Mayor que", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.MAYOR,yyline,yychar, yytext());}
 					case -16:
 						break;
 					case 16:
-						{return new Symbol(sym.MENOR,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Menor que", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.MENOR,yyline,yychar, yytext());}
 					case -17:
 						break;
 					case 17:
-						{return new Symbol(sym.DIFER,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Diferente", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.DIFER,yyline,yychar, yytext());}
 					case -18:
 						break;
 					case 18:
-						{return new Symbol(sym.AND,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "AND", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.AND,yyline,yychar, yytext());}
 					case -19:
 						break;
 					case 19:
-						{return new Symbol(sym.OR,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "OR", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.OR,yyline,yychar, yytext());}
 					case -20:
 						break;
 					case 20:
-						{return new Symbol(sym.IGUAL,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Signo igual", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IGUAL,yyline,yychar, yytext());}
 					case -21:
 						break;
 					case 21:
@@ -500,7 +521,8 @@ public class LexicoJS implements java_cup.runtime.Scanner {
 					case -22:
 						break;
 					case 22:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -23:
 						break;
 					case 23:
@@ -508,7 +530,8 @@ public class LexicoJS implements java_cup.runtime.Scanner {
 					case -24:
 						break;
 					case 24:
-						{return new Symbol(sym.ENTERO,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Numero entero", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.ENTERO,yyline,yychar, yytext());}
 					case -25:
 						break;
 					case 25:
@@ -523,35 +546,43 @@ public class LexicoJS implements java_cup.runtime.Scanner {
 					case -27:
 						break;
 					case 27:
-						{return new Symbol(sym.IF,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_if", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IF,yyline,yychar, yytext());}
 					case -28:
 						break;
 					case 28:
-						{return new Symbol(sym.DO,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_do", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.DO,yyline,yychar, yytext());}
 					case -29:
 						break;
 					case 29:
-						{return new Symbol(sym.CADENA,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Cadena", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.CADENA,yyline,yychar, yytext());}
 					case -30:
 						break;
 					case 30:
-						{return new Symbol(sym.LET,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_let", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.LET,yyline,yychar, yytext());}
 					case -31:
 						break;
 					case 31:
-						{return new Symbol(sym.LOG,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_log", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.LOG,yyline,yychar, yytext());}
 					case -32:
 						break;
 					case 32:
-						{return new Symbol(sym.VAR,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_var", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.VAR,yyline,yychar, yytext());}
 					case -33:
 						break;
 					case 33:
-						{return new Symbol(sym.FOR,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_for", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.FOR,yyline,yychar, yytext());}
 					case -34:
 						break;
 					case 34:
-						{return new Symbol(sym.DECIMAL,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Numero decimal", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.DECIMAL,yyline,yychar, yytext());}
 					case -35:
 						break;
 					case 35:
@@ -559,55 +590,68 @@ public class LexicoJS implements java_cup.runtime.Scanner {
 					case -36:
 						break;
 					case 36:
-						{return new Symbol(sym.CASE,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_case", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.CASE,yyline,yychar, yytext());}
 					case -37:
 						break;
 					case 37:
-						{return new Symbol(sym.ELSE,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_else", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.ELSE,yyline,yychar, yytext());}
 					case -38:
 						break;
 					case 38:
-						{return new Symbol(sym.TRUE,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_true", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.TRUE,yyline,yychar, yytext());}
 					case -39:
 						break;
 					case 39:
-						{return new Symbol(sym.CLASS,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_class", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.CLASS,yyline,yychar, yytext());}
 					case -40:
 						break;
 					case 40:
-						{return new Symbol(sym.CONST,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_const", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.CONST,yyline,yychar, yytext());}
 					case -41:
 						break;
 					case 41:
-						{return new Symbol(sym.FALSE,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_false", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.FALSE,yyline,yychar, yytext());}
 					case -42:
 						break;
 					case 42:
-						{return new Symbol(sym.WHILE,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_while", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.WHILE,yyline,yychar, yytext());}
 					case -43:
 						break;
 					case 43:
-						{return new Symbol(sym.BREAK,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_break", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.BREAK,yyline,yychar, yytext());}
 					case -44:
 						break;
 					case 44:
-						{return new Symbol(sym.SWITCH,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_switch", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.SWITCH,yyline,yychar, yytext());}
 					case -45:
 						break;
 					case 45:
-						{return new Symbol(sym.CONSOLE,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_console", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.CONSOLE,yyline,yychar, yytext());}
 					case -46:
 						break;
 					case 46:
-						{return new Symbol(sym.REQUIRE,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_require", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.REQUIRE,yyline,yychar, yytext());}
 					case -47:
 						break;
 					case 47:
-						{return new Symbol(sym.DEFAULT,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "pr_default", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.DEFAULT,yyline,yychar, yytext());}
 					case -48:
 						break;
 					case 49:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -49:
 						break;
 					case 50:
@@ -622,215 +666,268 @@ public class LexicoJS implements java_cup.runtime.Scanner {
 					case -51:
 						break;
 					case 53:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -52:
 						break;
 					case 55:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -53:
 						break;
 					case 57:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -54:
 						break;
 					case 59:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -55:
 						break;
 					case 61:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -56:
 						break;
 					case 63:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -57:
 						break;
 					case 64:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -58:
 						break;
 					case 65:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -59:
 						break;
 					case 66:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -60:
 						break;
 					case 67:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -61:
 						break;
 					case 68:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -62:
 						break;
 					case 69:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -63:
 						break;
 					case 70:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -64:
 						break;
 					case 71:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -65:
 						break;
 					case 72:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -66:
 						break;
 					case 73:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -67:
 						break;
 					case 74:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -68:
 						break;
 					case 75:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -69:
 						break;
 					case 77:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -70:
 						break;
 					case 78:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -71:
 						break;
 					case 79:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -72:
 						break;
 					case 80:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -73:
 						break;
 					case 81:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -74:
 						break;
 					case 82:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -75:
 						break;
 					case 83:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -76:
 						break;
 					case 84:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -77:
 						break;
 					case 85:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -78:
 						break;
 					case 86:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -79:
 						break;
 					case 87:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -80:
 						break;
 					case 88:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -81:
 						break;
 					case 89:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -82:
 						break;
 					case 90:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -83:
 						break;
 					case 91:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -84:
 						break;
 					case 92:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -85:
 						break;
 					case 93:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -86:
 						break;
 					case 94:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -87:
 						break;
 					case 95:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -88:
 						break;
 					case 96:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -89:
 						break;
 					case 97:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -90:
 						break;
 					case 98:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -91:
 						break;
 					case 99:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -92:
 						break;
 					case 100:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -93:
 						break;
 					case 101:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -94:
 						break;
 					case 102:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -95:
 						break;
 					case 103:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -96:
 						break;
 					case 104:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -97:
 						break;
 					case 105:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -98:
 						break;
 					case 106:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -99:
 						break;
 					case 107:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -100:
 						break;
 					case 108:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -101:
 						break;
 					case 109:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -102:
 						break;
 					case 110:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -103:
 						break;
 					case 111:
-						{return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
+						{listaToken.add(new Token(yytext(), "Identificador", String.valueOf(yyline), String.valueOf(yychar), "Archivo js")); 
+return new Symbol(sym.IDENTIFI,yyline,yychar, yytext());}
 					case -104:
 						break;
 					default:

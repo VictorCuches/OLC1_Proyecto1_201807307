@@ -300,7 +300,7 @@ public class Sintactico extends java_cup.runtime.lr_parser {
     public void syntax_error(Symbol s){ 
         System.out.println("Error Sintáctico en la Línea " + (s.left) +
         " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"."); 
-        //Interfaz.PrincipalW.listaError.add(new ErroresF(s.value.toString(),"Error sintactico",String.valueOf(s.left), String.valueOf(s.right), "Archivo .fca"));
+        Interfaz.PrincipalW.listaError.add(new ErroresF(s.value.toString(),"Error sintactico no se esperaba "+s.value.toString(),String.valueOf(s.left), String.valueOf(s.right), "Archivo .fca"));
       
     } 
 
@@ -312,7 +312,7 @@ public class Sintactico extends java_cup.runtime.lr_parser {
         System.out.println("Error síntactico irrecuperable en la Línea " + 
         (s.left)+ " Columna "+s.right+". Componente " + s.value + 
         " no reconocido."); 
-      //Interfaz.PrincipalW.listaError.add(new ErroresF(s.value.toString(),"Error sintactico",String.valueOf(s.left), String.valueOf(s.right), "Archivo fca"));
+        Interfaz.PrincipalW.listaError.add(new ErroresF(s.value.toString(),"Error sintactico no se esperaba "+s.value.toString(),String.valueOf(s.left), String.valueOf(s.right), "Archivo .fca"));
        
     }  
     

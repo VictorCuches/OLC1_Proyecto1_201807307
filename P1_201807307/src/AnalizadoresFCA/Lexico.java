@@ -5,6 +5,8 @@
  */
 package AnalizadoresFCA;
 import java_cup.runtime.Symbol; 
+import Interfaz.*;
+import Reportes.*;
 
 
 public class Lexico implements java_cup.runtime.Scanner {
@@ -556,6 +558,7 @@ public class Lexico implements java_cup.runtime.Scanner {
 						{
     System.out.println("Este es un error lexico: "+yytext()+
     ", en la linea: "+yyline+", en la columna: "+yychar);
+    Interfaz.PrincipalW.listaError.add(new ErroresF(yytext().toString(),"Error Lexico: Simbolo no reconocido",String.valueOf(yyline), String.valueOf(yychar), "Archivo fca"));
 }
 					case -17:
 						break;
@@ -647,6 +650,7 @@ public class Lexico implements java_cup.runtime.Scanner {
 						{
     System.out.println("Este es un error lexico: "+yytext()+
     ", en la linea: "+yyline+", en la columna: "+yychar);
+    Interfaz.PrincipalW.listaError.add(new ErroresF(yytext().toString(),"Error Lexico: Simbolo no reconocido",String.valueOf(yyline), String.valueOf(yychar), "Archivo fca"));
 }
 					case -39:
 						break;
@@ -662,6 +666,7 @@ public class Lexico implements java_cup.runtime.Scanner {
 						{
     System.out.println("Este es un error lexico: "+yytext()+
     ", en la linea: "+yyline+", en la columna: "+yychar);
+    Interfaz.PrincipalW.listaError.add(new ErroresF(yytext().toString(),"Error Lexico: Simbolo no reconocido",String.valueOf(yyline), String.valueOf(yychar), "Archivo fca"));
 }
 					case -42:
 						break;

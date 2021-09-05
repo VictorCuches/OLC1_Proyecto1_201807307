@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * @author vcuch
  */
 public class ErroresF {
+    // pendiente de borrar esta lista jajaja
     public static ArrayList<ErroresF> listaError = new ArrayList<ErroresF>();
 
     private String lexema;

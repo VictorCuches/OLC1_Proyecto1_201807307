@@ -65,6 +65,7 @@ public class PrincipalW extends javax.swing.JFrame {
     public static String js_file1 = "";
     public static String js_file2 = "";
     public static String fca_file = "";
+    public static String flagJS = "";
     
     String textFile =""; // contenido archivo FCA
     String textJS1 = ""; // contenido archivo JS1
@@ -72,6 +73,7 @@ public class PrincipalW extends javax.swing.JFrame {
     
     File archivoEntrada;
     int contPes = 1;
+    int contGraf = 1;
     
     
     public PrincipalW() {
@@ -287,6 +289,7 @@ public class PrincipalW extends javax.swing.JFrame {
 
     private void reportJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportJSONActionPerformed
         // TODO add your handling code here:
+        /*
         System.out.println("-------------INFORMACION GUARDADA----------------");
         System.out.println("VARIABLES ");
         for(VariablesGlo ele: listaVariables){
@@ -313,6 +316,7 @@ public class PrincipalW extends javax.swing.JFrame {
         for(CompareFile ele5: listaRuta){
             System.out.println("Ruta1: "+ele5.getRuta1()+" Ruta2: "+ele5.getRuta2());
         }
+        */
         
     }//GEN-LAST:event_reportJSONActionPerformed
 
@@ -349,8 +353,9 @@ public class PrincipalW extends javax.swing.JFrame {
             System.out.println("Causa: "+ex.getCause());
         }
         
-        
+        // PENDIENTE DE QUITAR COMENTARIOOOOOO 
         analizarJS();
+       
         
         
         
@@ -424,15 +429,59 @@ public class PrincipalW extends javax.swing.JFrame {
     }
     
     private void reportError(){
-        System.out.println("Creando reporte");
-        for(ErroresF ele: listaError){
-            System.out.println("Lexema: "+ele.getLexema()+" Token: "+ele.getTipo()+" Columna: "+ele.getColumna()+" Linea: "+ele.getLinea()+" Archivo: "+ele.getName_archivo());
-             
+        
+        File f;
+        FileWriter w;
+        BufferedWriter bw;
+        PrintWriter wr;
+        
+        try{
+            f = new File("Errores.html");
+            w = new FileWriter(f);
+            bw = new BufferedWriter(w);
+            wr = new PrintWriter(bw);
+            
+            // VARIABLES QUE CONTIENEN EL CUERPO DEL HTML
+            String uno = "<html> <head> <title>Errores - P1</title> </head> <style type=\"text/css\"> table {width: 90%; background-color: white; text-align: left; border-collapse: collapse;";
+            String dos = "}th, td{padding: 15px;} body{ background-color: #58D68D; font-family: Arial; } thead{ background-color: #246355;color: white; border-bottom: solid 5px #0F362D;} tr:nth-child(even){ background-color: #ddd ;";
+            String tres = "}tr:hover td{ background-color: #369681; color: white; } div{ background-color: #1D8348; font-family: Arial; width: 100%; } *{  margin: 0px; padding: 0px; } </style>";
+            String cuatro = "<body> <center> <div> <br> <br> <h1>REPORTE DE ERRORES</h1> <h3>Victor Alejandro Cuches de León   201807307</h3> <br> <br> </div><br> ";
+            String cinco = "<table ><thead><tr> <th>No.</th> <th>Lexema</th><th>Tipo</th> <th>Linea</th> <th>Columna</th> <th>Archivo</th>  </tr></thead> ";
+            String seis = "<br>\n" +"</table>\n" +"    </center>\n" +"    </body>\n" +"</html>";
+
+            wr.write("<br>");
+            wr.append(uno);
+            wr.append(dos);
+            wr.append(tres);
+            wr.append(cuatro);
+            wr.append(cinco);
+            
+            int cont = 1;
+            for(ErroresF ele: listaError){
+                wr.append("<tr>");
+                wr.append("<td>"+String.valueOf(cont)+"</td>");
+                wr.append("<td>"+ele.getLexema()+"</td>");
+                wr.append("<td>"+ele.getTipo()+"</td>");
+                wr.append("<td>"+ele.getLinea()+"</td>");
+                wr.append("<td>"+ele.getColumna()+"</td>");
+                wr.append("<td>"+ele.getName_archivo()+"</td>");
+                wr.append("</tr>");
+                cont = cont + 1;
+            }
+            wr.append(seis);
+ 
+            wr.close();
+            bw.close();
+            
+        } catch (Exception e){
+            System.out.println("Problemichi");
         }
     }
     private void analizarJS(){
+        
         Archivo a1 = new Archivo();
         Archivo a2 = new Archivo();
+        System.out.println("Entrando AnalizarJS");
         
         // OBTENIENDO LAS RUTAS DEL COMPARE EN EL ARCHIVO FCA
         System.out.println("COMPARE");
@@ -459,11 +508,15 @@ public class PrincipalW extends javax.swing.JFrame {
         
         
         textJS1 = a1.readJS(ruta1);
-        textJS2 = a1.readJS(ruta2);
+        textJS2 = a2.readJS(ruta2);
         
         
-       
+        
+        flagJS = js_file1;
         envioAnalisis(textJS1);
+        System.out.println(flagJS+"--------------------------");
+        flagJS = js_file2;
+        System.out.println(flagJS+"--------------------------");
         //envioAnalisis(textJS2);
         
         /*
@@ -521,7 +574,8 @@ public class PrincipalW extends javax.swing.JFrame {
         
     }
     private void EstatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstatisticsActionPerformed
-        // GRAFICA DE BARRAS
+        
+/*// GRAFICA DE BARRAS
         DefaultCategoryDataset datosg = new DefaultCategoryDataset();
         datosg.setValue(5,"Barra","Victor");
         datosg.setValue(10,"Barra","Alejo");
@@ -592,6 +646,12 @@ public class PrincipalW extends javax.swing.JFrame {
         } catch (Exception e){
             
         }
+        */
+        
+        buildBarras();
+        buildPie();
+        
+        
        
         
         
@@ -602,7 +662,172 @@ public class PrincipalW extends javax.swing.JFrame {
         
       
     }//GEN-LAST:event_EstatisticsActionPerformed
+    private void buildPie(){
+        String tituloG = "";
+        String ejex = "";
+        String valos = "";
+        for(GraficaPie eleP: listaPie){
+            String nameGraf = "GraficaPie"+String.valueOf(contGraf);
+            DefaultPieDataset datop = new DefaultPieDataset();
+            
+            tituloG = verVariable(eleP.getTitulo());
+            if (tituloG == null){
+                tituloG =  eleP.getTitulo();
+                tituloG = tituloG.replace("\"", "");
+            }
+            
+            for(int i = 0; i < eleP.getEjex().size(); i++){
+                ejex = verVariable(eleP.getEjex().get(i));
+                if (ejex == null){
+                    ejex = eleP.getEjex().get(i);
+                    ejex = ejex.replace("\"", "");
+                } 
+                valos = verVariable(eleP.getValores().get(i));
+                if (valos == null){
+                    valos = eleP.getValores().get(i);
+                }
+                
+                
+                datop.setValue(ejex, Double.parseDouble(valos));
+            }
+            JFreeChart grafPie = ChartFactory.createPieChart(
+                tituloG, 
+                datop,
+                true,
+                true,
+                false);
+        
+            try{
+                  
+                final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+                final File file1 = new File("src/Images/"+nameGraf+".png");
+                ChartUtilities.saveChartAsPNG(file1, grafPie, 600, 400, info);
+            } catch (Exception e){
 
+            }
+            
+            
+            
+        }
+    }
+    private void buildBarras(){
+        String tituloG = "";
+        String titulx = "";
+        String tituly = "";
+        String ejex = "";
+        String valos = "";
+        
+     
+        
+        
+        
+        for(GraficaBarras eleB: listaBarras){
+            String nameGraf = "GraficaBarras"+String.valueOf(contGraf);
+            DefaultCategoryDataset datosg = new DefaultCategoryDataset();
+            System.out.println(eleB.getTitulo());
+            
+            tituloG= verVariable(eleB.getTitulo());
+            if (tituloG == null){
+                tituloG = eleB.getTitulo();  
+                tituloG = tituloG.replace("\"", "");
+            }
+            
+            System.out.println("Titulo: "+tituloG);
+            
+            System.out.println("----");
+            System.out.println("TituloX: "+eleB.getTitulox());
+            titulx = verVariable(eleB.getTitulox());
+            if (titulx == null){
+                titulx = eleB.getTitulox();
+                titulx = titulx.replace("\"", "");
+            }
+            System.out.println("TituloX: "+titulx);
+            System.out.println("-----");
+          
+            System.out.println("TituloY: "+eleB.getTituloy());
+            tituly = verVariable(eleB.getTituloy());
+            if(tituly == null){
+                tituly = eleB.getTituloy();
+                tituly = tituly.replace("\"", "");
+            }
+            System.out.println("TituloY: "+tituly);
+            System.out.println("-----");
+            System.out.println(eleB.getEjex().size());
+            
+            for(int i = 0; i < eleB.getEjex().size(); i++){
+                ejex = verVariable(eleB.getEjex().get(i));
+                if (ejex == null){
+                    ejex = eleB.getEjex().get(i);
+                    ejex = ejex.replace("\"", "");
+                } 
+                valos = verVariable(eleB.getValores().get(i));
+                if (valos == null){
+                    valos = eleB.getValores().get(i);
+                }
+                
+                
+                datosg.setValue(Double.parseDouble(valos),"GraficaBarras",ejex);
+            }
+            JFreeChart grafB = ChartFactory.createBarChart3D(
+                tituloG, 
+                titulx,
+                tituly, 
+                datosg,
+                PlotOrientation.VERTICAL,
+                true,
+                true,
+                false);
+        
+            try{
+
+                final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+                final File file1 = new File("src/Images/"+nameGraf+".png");
+                ChartUtilities.saveChartAsPNG(file1, grafB, 600, 400, info);
+            } catch (Exception e){   
+            }
+            contGraf = contGraf + 1;
+            
+            
+           
+        }
+  
+        
+       
+        
+        
+            
+            
+        
+        
+        /*
+            
+            //
+            
+        
+        
+        
+        
+        */
+        
+        
+        
+        
+    }
+    private String verVariable(String dato){
+       
+        for(VariablesGlo ele2: listaVariables){
+            if(ele2.getIdent().equals(dato)) {
+               
+                return ele2.getValue();
+            } 
+
+        }
+        return null;
+        
+        
+    
+        
+    }
     private void ReportErrorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportErrorActionPerformed
         reportError();
     }//GEN-LAST:event_ReportErrorActionPerformed
