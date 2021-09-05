@@ -44,7 +44,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -79,6 +81,8 @@ public class PrincipalW extends javax.swing.JFrame {
     String textFile =""; // contenido archivo FCA
     String textJS1 = ""; // contenido archivo JS1
     String textJS2 = ""; // contenido archivo JS2
+    int conv1, conv2, conc1,conc2, conm1,conm2,conme1,conme2;
+    int contb, contp, contl;
     
     File archivoEntrada;
     int contPes = 1;
@@ -297,19 +301,26 @@ public class PrincipalW extends javax.swing.JFrame {
     }//GEN-LAST:event_abrirFileActionPerformed
 
     private void reportJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportJSONActionPerformed
+        graficaResumen();
         /*
         //COMENTARIOS GUARDADOS DEL JS1 Y JS2
         for(Comentario ele: listaComentario){
             System.out.println("Archivo: "+ele.getName_file());
             System.out.println("Contenido: "+ele.getComentario());
         }
+        tablaResumen();
+        */
+        /*
         //VARIABLES GUARDADAS DEL JS1 Y JS2
         for(Variables ele: listaVariable){
             System.out.println("Archivo: "+ele.getName_file());
             System.out.println("Variables: "+ele.getId());
         }
+        tablaResumen();
         */
         
+        
+        /*
         //INFO CLASES DEL JS1 Y JS2
         for(Clase_ ele: listaClase){
             System.out.println("Archivo: "+ele.getName_File());
@@ -317,7 +328,8 @@ public class PrincipalW extends javax.swing.JFrame {
             System.out.println("Metodos: "+ele.getMetodos());
             System.out.println("Lineas: "+ele.getLineas());
         }
-        
+        tablaResumen();
+        */
         
         /*
         // INFO DE LOS METODOS DEL JS1 Y JS2
@@ -327,6 +339,7 @@ public class PrincipalW extends javax.swing.JFrame {
             System.out.println("Metodos: "+ele.getParametros());
             System.out.println("Lineas: "+ele.getLineas());
         }
+        tablaResumen();
         */
         
         
@@ -336,8 +349,9 @@ public class PrincipalW extends javax.swing.JFrame {
         System.out.println("VARIABLES ");
         for(VariablesGlo ele: listaVariables){
             System.out.println("Tipo: "+ele.getTipo()+" - ID: "+ele.getIdent()+" - Valor: "+ele.getValue());
-            
         }
+            
+        
         System.out.println("GRAFICA BARRAS");
         for(GraficaBarras ele4: listaBarras){
             System.out.println("Titulo: "+ele4.getTitulo()+" - Titulox: "+ele4.getTitulox()+" - Tituloy: "+ele4.getTituloy());
@@ -525,6 +539,14 @@ public class PrincipalW extends javax.swing.JFrame {
         FileWriter w;
         BufferedWriter bw;
         PrintWriter wr;
+        Calendar calendario = Calendar.getInstance();
+        SimpleDateFormat formato = new SimpleDateFormat("MMMM dd yyyy");
+        String resultado = formato.format(calendario.getTime());
+        formato = new SimpleDateFormat("MM/dd/YY HH:mm:ss");
+        resultado = formato.format(calendario.getTime());
+        
+        
+        
         
         try{
             f = new File("Estadistico.html");
@@ -535,34 +557,52 @@ public class PrincipalW extends javax.swing.JFrame {
             // VARIABLES QUE CONTIENEN EL CUERPO DEL HTML
             String uno = "<!DOCTYPE html><html lang=\"en\"><head> <meta charset=\"UTF-8\"> <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Estadistico</title><style type=\"text/css\"> body{background-color: #DFDBE5;background-image: url(\"data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%239C92AC' fill-opacity='0.4'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\");";
             String dos = " } #cuadro{ background-color: white; width: 80%; border: 4px solid black;  } #datosP{ background-color: grey; width: 300px;height: 170px; padding: 15px; border: 1px solid black; } table,th,td{ border: 1px solid black;border-collapse: collapse; }";
-            String tres = " th, td{ text-align: center; padding: 10px; border-bottom: 1px solid black; } th{ text-align: center; } </style></head><body><br> <center> <div id=\"cuadro\"><h1>REPORTE ESTADISTICO</h1>  <h2>Victor Alejandro Cuches de León  201807307</h2> <br><br> <h3>Aqui va grafico de lineas</h3><br><br>";
+            String tres = " th, td{ text-align: center; padding: 10px; border-bottom: 1px solid black; } th{ text-align: center; } </style></head><body><br> <center> <div id=\"cuadro\"><h1>REPORTE ESTADISTICO</h1>  <h2>Victor Alejandro Cuches de León  201807307</h2> <br><br> <img src=\"src/Images/Resumen.png\"><br><br><table >";
+            String cuatro = " <div id=\"datosP\"><h2>Datos Personales</h2><p>Victor Alejandro Cuches de León</p> <p>201807307</p>";
+            String cinco = "</div> <br><br><br><br><br> </div></center> <br></body></html>";
             
-            
-            // pendiente de cambiar!!
-            String cuatro = "<body> <center> <div> <br> <br> <h1>REPORTE DE TOKENS</h1> <h3>Victor Alejandro Cuches de León   201807307</h3> <br> <br> </div><br> ";
-            String cinco = "<table ><thead><tr> <th>No.</th> <th>Lexema</th><th>Token</th> <th>Linea</th> <th>Columna</th> <th>Archivo</th>  </tr></thead> ";
-            String seis = "<br>\n" +"</table>\n" +"    </center>\n" +"    </body>\n" +"</html>";
-
             wr.write("<br>");
             wr.append(uno);
             wr.append(dos);
             wr.append(tres);
-            wr.append(cuatro);
-            wr.append(cinco);
+            wr.append("<tr>");
+            wr.append("<th scope=\"row\">Tipo</th>");
+            wr.append("<th>"+js_file1+"</th>");
+            wr.append("<th>"+js_file2+"</th></tr><tr>");
+            wr.append("<th>Total variables</th>");
+            wr.append("<td>"+conv1+"</td>");
+            wr.append("<td>"+conv2+"</td></tr><tr>");
             
-            int cont = 1;
-            for(Token ele: listaToken){
-                wr.append("<tr>");
-                wr.append("<td>"+String.valueOf(cont)+"</td>");
-                wr.append("<td>"+ele.getLexema()+"</td>");
-                wr.append("<td>"+ele.getToken()+"</td>");
-                wr.append("<td>"+ele.getLinea()+"</td>");
-                wr.append("<td>"+ele.getColumna()+"</td>");
-                wr.append("<td>"+ele.getName_archivo()+"</td>");
-                wr.append("</tr>");
-                cont = cont + 1;
+            wr.append("<th>Total clases</th>");
+            wr.append("<td>"+conc1+"</td>");
+            wr.append("<td>"+conc2+"</td></tr><tr>");
+            
+            wr.append("<th>Total metodos</th>");
+            wr.append("<td>"+conm1+"</td>");
+            wr.append("<td>"+conm2+"</td></tr><tr>");
+            
+            wr.append("<th>Total comentarios</th>");
+            wr.append("<td>"+conme1+"</td>");
+            wr.append("<td>"+conme2+"</td></tr><tr></table> <br><br><br>");
+            
+            
+            for (int i = 1; i < contGraf;i++){
+                    String nameGra = "Grafica"+String.valueOf(i);
+                    System.out.println(nameGra);
+                    
+                    wr.append("<h1>GRAFICO No. "+String.valueOf(i)+"</h1>");
+                    
+                    wr.append("<img src=\"src/Images/"+nameGra+".png\">" );
+                
+                    
+                
             }
-            wr.append(seis);
+           
+            
+            wr.append("<br><br>");
+            wr.append(cuatro);
+            wr.append("<p>"+resultado.toString()+"</p>");
+            wr.append(cinco);
  
             wr.close();
             bw.close();
@@ -742,9 +782,18 @@ public class PrincipalW extends javax.swing.JFrame {
             
         }
         */
+
+        tablaResumen();
+        graficaResumen();
+        
         
         buildBarras();
         buildPie();
+        buildLineas();
+        
+        
+        // METODO DONDE SE CONSTRUYE EL HTML
+        reporteEst();
         
         
        
@@ -757,12 +806,131 @@ public class PrincipalW extends javax.swing.JFrame {
         
       
     }//GEN-LAST:event_EstatisticsActionPerformed
+   
+    private void tablaResumen(){
+        // contando las variables
+        int cv = 0;
+        int cv2 = 0;
+        String tv = "";
+        boolean bv = false;
+        for(Variables ele: listaVariable){
+            if (bv == false){
+                tv = ele.getName_file();
+                cv++;
+                bv = true;
+            } else {
+                if (tv != ele.getName_file()){
+                    cv2++;
+                    
+                } else {
+                    cv++;
+                }
+            }  
+        }
+        
+        conv1 = cv;
+        conv2 = cv2;
+        
+        // contando clases
+        int cc = 0;
+        int cc2 = 0;
+        String tc = "";
+        boolean bc = false;
+        for(Clase_ ele2: listaClase){
+            if (bc == false){
+                tc = ele2.getName_File();
+                cc++;
+                bc = true;
+            } else {
+                if (tc != ele2.getName_File()){
+                    cc2++;
+                    
+                } else {
+                    cc++;
+                }
+            }  
+        }
+        conc1 = cc;
+        conc2 = cc2;
+        // contando metodos
+        int cm = 0;
+        int cm2 = 0;
+        String tm = "";
+        boolean bm = false;
+        for(Metodo ele3: listaMetodo){
+            if (bm == false){
+                tm = ele3.getName_File();
+                cm++;
+                bm = true;
+            } else {
+                if (tm != ele3.getName_File()){
+                    cm2++;
+                    
+                } else {
+                    cm++;
+                }
+            }  
+        }
+        conm1 = cm;
+        conm2 = cm2;
+        
+        // contando comentarios
+        int cn = 0;
+        int cn2 = 0;
+        String tn = "";
+        boolean bn = false;
+        for(Comentario ele4: listaComentario){
+            if (bn == false){
+                tn = ele4.getName_file();
+                cn++;
+                bn = true;
+            } else {
+                if (tn != ele4.getName_file()){
+                    cn2++;
+                    
+                } else {
+                    cn++;
+                }
+            }  
+        }
+        conme1 = cn;
+        conme2 = cn2;
+  
+    }
+    
+    private void graficaResumen(){
+      DefaultCategoryDataset datoR = new DefaultCategoryDataset();
+      datoR.addValue( conv1 , js_file1, "Variable");
+      datoR.addValue( conc1 , js_file1 , "Clase" );
+      datoR.addValue( conm1 , js_file1 , "Metodo" );
+      datoR.addValue( conme1 , js_file1 , "Comentario" );
+      datoR.addValue( conv2 , js_file2 , "Variable" );
+      datoR.addValue( conc2 , js_file2 , "Clase" ); 
+      datoR.addValue( conm2 , js_file2 , "Metodo" );
+      datoR.addValue( conme2, js_file2 , "Comentario" );
+      
+
+      JFreeChart lineChartObject = ChartFactory.createLineChart(
+         "Resumen - Analisis JS","Componentes",
+         "Cantidad",
+         datoR,
+         PlotOrientation.VERTICAL,
+         true,true,false);
+        try{
+            final ChartRenderingInfo info3 = new ChartRenderingInfo(new StandardEntityCollection());
+            final File file3 = new File("src/Images/Resumen.png");
+            ChartUtilities.saveChartAsPNG(file3, lineChartObject, 600, 400, info3);
+        } catch (Exception e){
+            
+        }
+        
+    }
     private void buildPie(){
         String tituloG = "";
         String ejex = "";
         String valos = "";
         for(GraficaPie eleP: listaPie){
-            String nameGraf = "GraficaPie"+String.valueOf(contGraf);
+            String nameGraf = "Grafica"+String.valueOf(contGraf);
             DefaultPieDataset datop = new DefaultPieDataset();
             
             tituloG = verVariable(eleP.getTitulo());
@@ -800,7 +968,8 @@ public class PrincipalW extends javax.swing.JFrame {
             } catch (Exception e){
 
             }
-            
+            contp++;
+            contGraf = contGraf + 1;
             
             
         }
@@ -817,7 +986,7 @@ public class PrincipalW extends javax.swing.JFrame {
         
         
         for(GraficaBarras eleB: listaBarras){
-            String nameGraf = "GraficaBarras"+String.valueOf(contGraf);
+            String nameGraf = "Grafica"+String.valueOf(contGraf);
             DefaultCategoryDataset datosg = new DefaultCategoryDataset();
             System.out.println(eleB.getTitulo());
             
@@ -880,31 +1049,65 @@ public class PrincipalW extends javax.swing.JFrame {
                 ChartUtilities.saveChartAsPNG(file1, grafB, 600, 400, info);
             } catch (Exception e){   
             }
+            contb++;
             contGraf = contGraf + 1;
             
             
            
         }
-  
-        
-       
+         
         
         
+    }
+    private void buildLineas(){
+        String tituloG = "";
+        String archivo = "";
+        
+        for (GraficaLinea eleL: listaLinea){
+            DefaultCategoryDataset datoR = new DefaultCategoryDataset();
+            String nameGraf = "Grafica"+String.valueOf(contGraf);
+            System.out.println(eleL.getTitulo());
+            
+            tituloG= verVariable(eleL.getTitulo());
+            if (tituloG == null){
+                tituloG = eleL.getTitulo();  
+                tituloG = tituloG.replace("\"", "");
+            }
+            
+            System.out.println("Titulo: "+tituloG);
+            
+            archivo = verVariable(eleL.getArchivo());
+            if (archivo == null){
+                archivo = eleL.getArchivo();
+                archivo = archivo.replace("\"", "");
+            }
+            System.out.println("Archivo: "+archivo);
             
             
-        
-        
-        /*
             
-            //
+            datoR.addValue( conv1 , js_file1, "Variable");
+      
+      
+
+            JFreeChart grafL = ChartFactory.createLineChart(
+             tituloG,
+             "Componentes",
+             "Cantidad",
+             datoR,
+             PlotOrientation.VERTICAL,
+             true,true,false);
+            try{
+
+                final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+                final File file1 = new File("src/Images/"+nameGraf+".png");
+                ChartUtilities.saveChartAsPNG(file1, grafL, 600, 400, info);
+            } catch (Exception e){   
+            }
+            contl++;
+            contGraf++;
+        
             
-        
-        
-        
-        
-        */
-        
-        
+        }
         
         
     }
