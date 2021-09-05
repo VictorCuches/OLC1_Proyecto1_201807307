@@ -20,6 +20,14 @@ import static AnalizadoresFCA.Sintactico.listaToken;
 import ToolsFCA.*;
 import static AnalizadoresFCA.Sintactico.listaVariables;
 import AnalizadoresJS.*;
+import static AnalizadoresJS.SintacticoJS.listaClase;
+import static AnalizadoresJS.SintacticoJS.listaComentario;
+import static AnalizadoresJS.SintacticoJS.listaMetodo;
+import static AnalizadoresJS.SintacticoJS.listaVariable;
+import Repitencia.Clase_;
+import Repitencia.Comentario;
+import Repitencia.Metodo;
+import Repitencia.Variables;
 import Reportes.Token;
 import ToolsFCA.VariablesGlo;
 import java.awt.Component;
@@ -62,6 +70,7 @@ public class PrincipalW extends javax.swing.JFrame {
     
  
     public static ArrayList<ErroresF> listaError = new ArrayList<ErroresF>();
+    
     public static String js_file1 = "";
     public static String js_file2 = "";
     public static String fca_file = "";
@@ -288,7 +297,37 @@ public class PrincipalW extends javax.swing.JFrame {
     }//GEN-LAST:event_abrirFileActionPerformed
 
     private void reportJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportJSONActionPerformed
-        // TODO add your handling code here:
+        /*
+        //COMENTARIOS GUARDADOS DEL JS1 Y JS2
+        for(Comentario ele: listaComentario){
+            System.out.println("Archivo: "+ele.getName_file());
+            System.out.println("Contenido: "+ele.getComentario());
+        }
+        //VARIABLES GUARDADAS DEL JS1 Y JS2
+        for(Variables ele: listaVariable){
+            System.out.println("Archivo: "+ele.getName_file());
+            System.out.println("Variables: "+ele.getId());
+        }
+        */
+        /*
+        //INFO CLASES DEL JS1 Y JS2
+        for(Clase_ ele: listaClase){
+            System.out.println("Archivo: "+ele.getName_File());
+            System.out.println("Nombre Clase: "+ele.getNombreC());
+            System.out.println("Metodos: "+ele.getMetodos());
+            System.out.println("Lineas: "+ele.getLineas());
+        }
+        */
+        
+        for(Metodo ele: listaMetodo){
+            System.out.println("Archivo: "+ele.getName_File());
+            System.out.println("Nombre Clase: "+ele.getNombreM());
+            System.out.println("Metodos: "+ele.getParametros());
+            System.out.println("Lineas: "+ele.getLineas());
+        }
+        
+        
+        
         /*
         System.out.println("-------------INFORMACION GUARDADA----------------");
         System.out.println("VARIABLES ");
@@ -517,7 +556,7 @@ public class PrincipalW extends javax.swing.JFrame {
         System.out.println(flagJS+"--------------------------");
         flagJS = js_file2;
         System.out.println(flagJS+"--------------------------");
-        //envioAnalisis(textJS2);
+        envioAnalisis(textJS2);
         
         /*
         System.out.println(textJS1);

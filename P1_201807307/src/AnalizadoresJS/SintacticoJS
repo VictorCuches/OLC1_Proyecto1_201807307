@@ -6,17 +6,33 @@
 
 package AnalizadoresJS; 
 import java_cup.runtime.*;
-
+import Interfaz.*;
+import Reportes.*;
+import Repitencia.*;
+import java.util.ArrayList;
 
 parser code 
 {:
+    public String archivo_name = Interfaz.PrincipalW.flagJS;
+    public static ArrayList<Comentario> listaComentario = new ArrayList<Comentario>();
+    public static ArrayList<Variables> listaVariable = new ArrayList<Variables>();
+    public static ArrayList<Clase_> listaClase = new ArrayList<Clase_>();
+    public static ArrayList<Metodo> listaMetodo = new ArrayList<Metodo>();
     
+    public ArrayList<String> naMetodo = new ArrayList<String>(); 
+    public ArrayList<String> liParam = new ArrayList<String>(); 
+    private int contlin = 0;
+    private String nameClase, naMeto;
+
+
+
     /**
      * Método al que se llama automáticamente ante algún error sintactico.
      **/ 
     public void syntax_error(Symbol s){ 
         System.out.println("Error Sintáctico en la Línea " + (s.left) +
         " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"."); 
+        Interfaz.PrincipalW.listaError.add(new ErroresF(s.value.toString(),"Error sintactico no se esperaba "+s.value.toString(),String.valueOf(s.left), String.valueOf(s.right), archivo_name ));
     } 
 
     /**
@@ -27,7 +43,21 @@ parser code
         System.out.println("Error síntactico irrecuperable en la Línea " + 
         (s.left)+ " Columna "+s.right+". Componente " + s.value + 
         " no reconocido."); 
+        Interfaz.PrincipalW.listaError.add(new ErroresF(s.value.toString(),"Error sintactico no se esperaba "+s.value.toString(),String.valueOf(s.left), String.valueOf(s.right), archivo_name ));
     }  
+    public void saveClase(){
+        listaClase.add(new Clase_(archivo_name,nameClase,naMetodo, String.valueOf(contlin)));
+        nameClase = "";
+        naMetodo.clear();
+        contlin = 0;
+        
+    }
+    public void saveMetodo(){
+        listaMetodo.add(new Metodo(archivo_name,naMeto,liParam, String.valueOf(contlin)));
+        naMeto = "";
+        liParam.clear();
+        contlin = 0;
+    }
     
 :} 
 
@@ -53,6 +83,7 @@ non terminal ciclodowhile;
 non terminal sentswitch, contswitch, contswitchh;
 non terminal consola;
 non terminal callmetodo, importacion, quebrar;
+non terminal multiclas, multiclass;
 
 precedence left MAS,MENOS,MOD;
 precedence left POR,DIV;
@@ -67,10 +98,15 @@ inicio ::=  instrucciones
 | error
 ;
 
-instrucciones ::= CLASS IDENTIFI LLAIZQ  contenido LLADER instrucciones
-| CLASS IDENTIFI LLAIZQ  contenido LLADER
-| COMENTUNO instrucciones
-| COMENTMUL instrucciones
+instrucciones ::= CLASS IDENTIFI:a LLAIZQ  contenido LLADER instrucciones
+{:nameClase = a; contlin++; saveClase();:}
+| CLASS IDENTIFI:a LLAIZQ  contenido LLADER
+{:nameClase = a; contlin++; saveClase();:}
+| COMENTUNO:a instrucciones 
+{:contlin++;:}
+{:listaComentario.add(new Comentario(archivo_name, a.toString()));contlin++;:}
+| COMENTMUL:b instrucciones
+{:listaComentario.add(new Comentario(archivo_name, b.toString()));contlin++;:}
 | error LLADER
 ;
 
@@ -82,12 +118,24 @@ relleno ::= variables
 | metodo
 | callmetodo
 | importacion 
-| COMENTUNO
-| COMENTMUL
+| COMENTUNO:a 
+{:listaComentario.add(new Comentario(archivo_name, a.toString()));
+contlin++;:}
+| COMENTMUL:b
+{:listaComentario.add(new Comentario(archivo_name, b.toString()));
+contlin++;:}
 ;
 
-metodo ::= IDENTIFI PARIZQ paramet PARDER LLAIZQ contmet LLADER
-| IDENTIFI PARIZQ PARDER LLAIZQ contmet LLADER
+metodo ::= IDENTIFI:a PARIZQ paramet PARDER LLAIZQ contmet LLADER
+{:naMetodo.add(a.toString());
+naMeto = a;
+contlin++;
+saveMetodo();:}
+| IDENTIFI:a PARIZQ PARDER LLAIZQ contmet LLADER
+{:naMetodo.add(a.toString());
+naMeto = a;
+contlin++;
+saveMetodo();:}
 ;
 
 contmet ::= contmet contmett
@@ -104,82 +152,92 @@ contmett ::= variables
 | callmetodo
 | importacion
 | quebrar
-| COMENTUNO
-| COMENTMUL
+| COMENTUNO:a
+{:listaComentario.add(new Comentario(archivo_name, a.toString()));
+contlin++;:}
+| COMENTMUL:b
+{:listaComentario.add(new Comentario(archivo_name, b.toString()));
+contlin++;:}
 ;
 
 
-callmetodo ::= IDENTIFI PARIZQ paramet PARDER PTCOMA
-| IDENTIFI PARIZQ paramet PARDER 
-| IDENTIFI PARIZQ PARDER PTCOMA
-| IDENTIFI PARIZQ PARDER 
+callmetodo ::= IDENTIFI PARIZQ paramet PARDER PTCOMA {:contlin++;:}
+| IDENTIFI PARIZQ paramet PARDER {:contlin++;:}
+| IDENTIFI PARIZQ PARDER PTCOMA {:contlin++;:}
+| IDENTIFI PARIZQ PARDER {:contlin++;:}
 
 ;
 
-importacion ::= tipovar IDENTIFI IGUAL REQUIRE PARIZQ CADENA PARDER PTCOMA
-| tipovar IDENTIFI IGUAL REQUIRE PARIZQ CADENA PARDER
-| IDENTIFI IGUAL REQUIRE PARIZQ CADENA PARDER PTCOMA
-| IDENTIFI IGUAL REQUIRE PARIZQ CADENA PARDER 
+importacion ::= tipovar IDENTIFI:a IGUAL REQUIRE PARIZQ CADENA PARDER PTCOMA
+{:listaVariable.add(new Variables(archivo_name, a.toString())); contlin++;:}
+| tipovar IDENTIFI:a IGUAL REQUIRE PARIZQ CADENA PARDER
+{:listaVariable.add(new Variables(archivo_name, a.toString()));contlin++;:}
+| IDENTIFI:a IGUAL REQUIRE PARIZQ CADENA PARDER PTCOMA
+{:listaVariable.add(new Variables(archivo_name, a.toString()));contlin++;:}
+| IDENTIFI:a IGUAL REQUIRE PARIZQ CADENA PARDER 
+{:listaVariable.add(new Variables(archivo_name, a.toString()));contlin++;:}
+| REQUIRE PARIZQ CADENA PARDER 
+| REQUIRE PARIZQ CADENA PARDER PTCOMA 
 ;
 
 
-consola ::= CONSOLE PUNTO LOG PARIZQ CADENA PARDER PTCOMA
-| CONSOLE PUNTO LOG PARIZQ CADENA PARDER 
-| CONSOLE PUNTO LOG PARIZQ DECIMAL PARDER PTCOMA
-| CONSOLE PUNTO LOG PARIZQ DECIMAL PARDER 
-| CONSOLE PUNTO LOG PARIZQ ENTERO PARDER PTCOMA
-| CONSOLE PUNTO LOG PARIZQ ENTERO PARDER 
-| CONSOLE PUNTO LOG PARIZQ IDENTIFI PARDER PTCOMA
-| CONSOLE PUNTO LOG PARIZQ IDENTIFI PARDER 
+consola ::= CONSOLE PUNTO LOG PARIZQ CADENA PARDER PTCOMA {:contlin++;:}
+| CONSOLE PUNTO LOG PARIZQ CADENA PARDER {:contlin++;:}
+| CONSOLE PUNTO LOG PARIZQ DECIMAL PARDER PTCOMA {:contlin++;:}
+| CONSOLE PUNTO LOG PARIZQ DECIMAL PARDER {:contlin++;:}
+| CONSOLE PUNTO LOG PARIZQ ENTERO PARDER PTCOMA {:contlin++;:}
+| CONSOLE PUNTO LOG PARIZQ ENTERO PARDER {:contlin++;:}
+| CONSOLE PUNTO LOG PARIZQ IDENTIFI PARDER PTCOMA {:contlin++;:}
+| CONSOLE PUNTO LOG PARIZQ IDENTIFI PARDER {:contlin++;:}
 
 ;
 
 
 
-sentswitch ::= SWITCH PARIZQ IDENTIFI PARDER LLAIZQ contswitch LLADER
+sentswitch ::= SWITCH PARIZQ IDENTIFI PARDER LLAIZQ contswitch LLADER {:contlin++;:}
 ;
 
 contswitch ::= contswitch contswitchh 
 | contswitchh
 ;
 
-contswitchh ::= CASE DECIMAL DOSPT contmet
-| CASE IDENTIFI DOSPT contmet
-| CASE CADENA DOSPT contmet
-| CASE ENTERO DOSPT contmet
-| DEFAULT DOSPT contmet
+contswitchh ::= CASE DECIMAL DOSPT contmet {:contlin++;:}
+| CASE IDENTIFI DOSPT contmet {:contlin++;:}
+| CASE CADENA DOSPT contmet {:contlin++;:}
+| CASE ENTERO DOSPT contmet {:contlin++;:}
+| DEFAULT DOSPT contmet {:contlin++;:}
 ;
 
-ciclodowhile ::= DO LLAIZQ contmet LLADER WHILE PARIZQ condicion PARDER PTCOMA
-| DO LLAIZQ contmet LLADER WHILE PARIZQ condicion PARDER
-| DO LLAIZQ contmet LLADER WHILE PARIZQ DIFER PARIZQ condicion PARDER PARDER PTCOMA
-| DO LLAIZQ contmet LLADER WHILE PARIZQ DIFER PARIZQ condicion PARDER PARDER
-
-;
-
-ciclowhile ::= WHILE PARIZQ condicion PARDER LLAIZQ contmet LLADER
-| WHILE PARIZQ DIFER PARIZQ condicion PARDER PARDER LLAIZQ contmet LLADER
+ciclodowhile ::= DO LLAIZQ contmet LLADER WHILE PARIZQ condicion PARDER PTCOMA {:contlin++;:}
+| DO LLAIZQ contmet LLADER WHILE PARIZQ condicion PARDER {:contlin++;:}
+| DO LLAIZQ contmet LLADER WHILE PARIZQ DIFER PARIZQ condicion PARDER PARDER PTCOMA {:contlin++;:}
+| DO LLAIZQ contmet LLADER WHILE PARIZQ DIFER PARIZQ condicion PARDER PARDER {:contlin++;:}
 
 ;
 
-ciclofor ::= FOR PARIZQ tipovar IDENTIFI IGUAL ENTERO PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER
-| FOR PARIZQ tipovar IDENTIFI IGUAL IDENTIFI PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER
-| FOR PARIZQ  IDENTIFI IGUAL ENTERO PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER
-| FOR PARIZQ IDENTIFI IGUAL IDENTIFI PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER
+ciclowhile ::= WHILE PARIZQ condicion PARDER LLAIZQ contmet LLADER {:contlin++;:}
+| WHILE PARIZQ DIFER PARIZQ condicion PARDER PARDER LLAIZQ contmet LLADER {:contlin++;:}
+
+;
+
+ciclofor ::= FOR PARIZQ tipovar IDENTIFI IGUAL ENTERO PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER {:contlin++;:}
+| FOR PARIZQ tipovar IDENTIFI IGUAL IDENTIFI PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER {:contlin++;:}
+| FOR PARIZQ  IDENTIFI IGUAL ENTERO PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER {:contlin++;:}
+| FOR PARIZQ IDENTIFI IGUAL IDENTIFI PTCOMA condicion PTCOMA incremento PARDER LLAIZQ contmet LLADER {:contlin++;:}
 ;
 
 incremento ::= IDENTIFI MAS MAS
 | IDENTIFI MENOS MENOS
 ;
 
-sentencia ::= IF PARIZQ  condicion  PARDER LLAIZQ contmet LLADER
-| IF PARIZQ condicion PARDER LLAIZQ contmet LLADER ELSE LLAIZQ contmet LLADER
-| IF PARIZQ condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion PARDER LLAIZQ contmet LLADER
-| IF PARIZQ condicion opelog condicion  PARDER LLAIZQ contmet LLADER
-| IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER ELSE LLAIZQ contmet LLADER
-| IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion PARDER LLAIZQ contmet LLADER
-| IF PARIZQ condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER
-| IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER
+sentencia ::= IF PARIZQ  condicion  PARDER LLAIZQ contmet LLADER {:contlin++;:}
+| IF PARIZQ condicion PARDER LLAIZQ contmet LLADER ELSE LLAIZQ contmet LLADER {:contlin++;:}
+| IF PARIZQ condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion PARDER LLAIZQ contmet LLADER {:contlin++;:}
+| IF PARIZQ condicion opelog condicion  PARDER LLAIZQ contmet LLADER {:contlin++;:}
+| IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER ELSE LLAIZQ contmet LLADER {:contlin++;:}
+| IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion PARDER LLAIZQ contmet LLADER {:contlin++;:}
+| IF PARIZQ condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER {:contlin++;:}
+| IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER ELSE IF PARIZQ condicion opelog condicion PARDER LLAIZQ contmet LLADER {:contlin++;:}
 ;
 
 opelog ::= AND AND 
@@ -203,27 +261,35 @@ condicion ::= expresion MAYOR expresion
 ;
 
 
-quebrar ::= BREAK
-| BREAK PTCOMA
+quebrar ::= BREAK {:contlin++;:}
+| BREAK PTCOMA {:contlin++;:}
 ;
 
 paramet ::= paramet COMA paramett
 | paramett
 ;
 
-paramett ::= IDENTIFI 
-| DECIMAL
-| ENTERO
-| CADENA
+paramett ::= IDENTIFI:a {:liParam.add(a.toString());:}
+| DECIMAL:a {:liParam.add(a.toString());:}
+| ENTERO:a {:liParam.add(a.toString());:}
+| CADENA:a {:liParam.add(a.toString());:}
 
 ;
 
-variables ::= tipovar IDENTIFI IGUAL valuevar PTCOMA
-| tipovar IDENTIFI IGUAL valuevar
-| IDENTIFI IGUAL valuevar PTCOMA
-| IDENTIFI IGUAL valuevar
-| IDENTIFI IGUAL IDENTIFI PTCOMA
-| IDENTIFI IGUAL IDENTIFI
+variables ::= tipovar IDENTIFI:a IGUAL valuevar PTCOMA
+{:listaVariable.add(new Variables(archivo_name, a.toString()));contlin++;:}
+| tipovar IDENTIFI:a IGUAL valuevar
+{:listaVariable.add(new Variables(archivo_name, a.toString()));contlin++;:}
+| IDENTIFI:a IGUAL valuevar PTCOMA
+{:listaVariable.add(new Variables(archivo_name, a.toString()));contlin++;:}
+| IDENTIFI:a IGUAL valuevar
+{:listaVariable.add(new Variables(archivo_name, a.toString()));contlin++;:}
+| tipovar IDENTIFI:a IGUAL IDENTIFI PTCOMA
+{:listaVariable.add(new Variables(archivo_name, a.toString()));contlin++;:}
+| IDENTIFI:a IGUAL IDENTIFI PTCOMA
+{:listaVariable.add(new Variables(archivo_name, a.toString()));contlin++;:}
+| IDENTIFI:a IGUAL IDENTIFI
+{:listaVariable.add(new Variables(archivo_name, a.toString()));contlin++;:}
 ;
 
 tipovar ::= VAR 

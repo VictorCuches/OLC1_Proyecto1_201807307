@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class ErroresF {
     // pendiente de borrar esta lista jajaja
-    public static ArrayList<ErroresF> listaError = new ArrayList<ErroresF>();
+    //public static ArrayList<ErroresF> listaError = new ArrayList<ErroresF>();
 
     private String lexema;
     private String tipo;
