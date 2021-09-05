@@ -98,17 +98,23 @@ inicio ::=  instrucciones
 | error
 ;
 
-instrucciones ::= CLASS IDENTIFI:a LLAIZQ  contenido LLADER instrucciones
-{:nameClase = a; contlin++; saveClase();:}
-| CLASS IDENTIFI:a LLAIZQ  contenido LLADER
-{:nameClase = a; contlin++; saveClase();:}
-| COMENTUNO:a instrucciones 
+instrucciones ::= COMENTUNO:a instrucciones 
 {:contlin++;:}
 {:listaComentario.add(new Comentario(archivo_name, a.toString()));contlin++;:}
 | COMENTMUL:b instrucciones
 {:listaComentario.add(new Comentario(archivo_name, b.toString()));contlin++;:}
+| multiclas
 | error LLADER
 ;
+
+multiclas ::= multiclas multiclass
+| multiclass;
+
+multiclass ::= CLASS IDENTIFI:a LLAIZQ  contenido LLADER 
+{:nameClase = a; contlin++; saveClase();:}
+
+;
+
 
 contenido ::= contenido relleno
 | relleno

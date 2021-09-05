@@ -309,7 +309,7 @@ public class PrincipalW extends javax.swing.JFrame {
             System.out.println("Variables: "+ele.getId());
         }
         */
-        /*
+        
         //INFO CLASES DEL JS1 Y JS2
         for(Clase_ ele: listaClase){
             System.out.println("Archivo: "+ele.getName_File());
@@ -317,14 +317,17 @@ public class PrincipalW extends javax.swing.JFrame {
             System.out.println("Metodos: "+ele.getMetodos());
             System.out.println("Lineas: "+ele.getLineas());
         }
-        */
         
+        
+        /*
+        // INFO DE LOS METODOS DEL JS1 Y JS2
         for(Metodo ele: listaMetodo){
             System.out.println("Archivo: "+ele.getName_File());
             System.out.println("Nombre Clase: "+ele.getNombreM());
             System.out.println("Metodos: "+ele.getParametros());
             System.out.println("Lineas: "+ele.getLineas());
         }
+        */
         
         
         
@@ -515,6 +518,59 @@ public class PrincipalW extends javax.swing.JFrame {
         } catch (Exception e){
             System.out.println("Problemichi");
         }
+    }
+    
+    private void reporteEst(){
+        File f;
+        FileWriter w;
+        BufferedWriter bw;
+        PrintWriter wr;
+        
+        try{
+            f = new File("Estadistico.html");
+            w = new FileWriter(f);
+            bw = new BufferedWriter(w);
+            wr = new PrintWriter(bw);
+            
+            // VARIABLES QUE CONTIENEN EL CUERPO DEL HTML
+            String uno = "<!DOCTYPE html><html lang=\"en\"><head> <meta charset=\"UTF-8\"> <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Estadistico</title><style type=\"text/css\"> body{background-color: #DFDBE5;background-image: url(\"data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%239C92AC' fill-opacity='0.4'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\");";
+            String dos = " } #cuadro{ background-color: white; width: 80%; border: 4px solid black;  } #datosP{ background-color: grey; width: 300px;height: 170px; padding: 15px; border: 1px solid black; } table,th,td{ border: 1px solid black;border-collapse: collapse; }";
+            String tres = " th, td{ text-align: center; padding: 10px; border-bottom: 1px solid black; } th{ text-align: center; } </style></head><body><br> <center> <div id=\"cuadro\"><h1>REPORTE ESTADISTICO</h1>  <h2>Victor Alejandro Cuches de León  201807307</h2> <br><br> <h3>Aqui va grafico de lineas</h3><br><br>";
+            
+            
+            // pendiente de cambiar!!
+            String cuatro = "<body> <center> <div> <br> <br> <h1>REPORTE DE TOKENS</h1> <h3>Victor Alejandro Cuches de León   201807307</h3> <br> <br> </div><br> ";
+            String cinco = "<table ><thead><tr> <th>No.</th> <th>Lexema</th><th>Token</th> <th>Linea</th> <th>Columna</th> <th>Archivo</th>  </tr></thead> ";
+            String seis = "<br>\n" +"</table>\n" +"    </center>\n" +"    </body>\n" +"</html>";
+
+            wr.write("<br>");
+            wr.append(uno);
+            wr.append(dos);
+            wr.append(tres);
+            wr.append(cuatro);
+            wr.append(cinco);
+            
+            int cont = 1;
+            for(Token ele: listaToken){
+                wr.append("<tr>");
+                wr.append("<td>"+String.valueOf(cont)+"</td>");
+                wr.append("<td>"+ele.getLexema()+"</td>");
+                wr.append("<td>"+ele.getToken()+"</td>");
+                wr.append("<td>"+ele.getLinea()+"</td>");
+                wr.append("<td>"+ele.getColumna()+"</td>");
+                wr.append("<td>"+ele.getName_archivo()+"</td>");
+                wr.append("</tr>");
+                cont = cont + 1;
+            }
+            wr.append(seis);
+ 
+            wr.close();
+            bw.close();
+            
+        } catch (Exception e){
+            System.out.println("Problemichi");
+        }
+        
     }
     private void analizarJS(){
         
