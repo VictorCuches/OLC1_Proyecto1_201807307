@@ -21,7 +21,7 @@ import Interfaz.*;
 %char 
 %cup 
 %unicode
-%ignorecase
+
 
 %init{ 
     yyline = 1; 

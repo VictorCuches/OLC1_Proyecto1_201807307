@@ -184,6 +184,7 @@ importacion ::= tipovar IDENTIFI:a IGUAL REQUIRE PARIZQ CADENA PARDER PTCOMA
 {:listaVariable.add(new Variables(archivo_name, a.toString()));contlin++;:}
 | REQUIRE PARIZQ CADENA PARDER 
 | REQUIRE PARIZQ CADENA PARDER PTCOMA 
+
 ;
 
 
@@ -195,7 +196,6 @@ consola ::= CONSOLE PUNTO LOG PARIZQ CADENA PARDER PTCOMA {:contlin++;:}
 | CONSOLE PUNTO LOG PARIZQ ENTERO PARDER {:contlin++;:}
 | CONSOLE PUNTO LOG PARIZQ IDENTIFI PARDER PTCOMA {:contlin++;:}
 | CONSOLE PUNTO LOG PARIZQ IDENTIFI PARDER {:contlin++;:}
-
 ;
 
 

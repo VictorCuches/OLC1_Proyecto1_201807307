@@ -1203,10 +1203,7 @@ public class PrincipalW extends javax.swing.JFrame {
 
         }
         return null;
-        
-        
-    
-        
+          
     }
     private void ReportErrorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportErrorActionPerformed
         reportError();
