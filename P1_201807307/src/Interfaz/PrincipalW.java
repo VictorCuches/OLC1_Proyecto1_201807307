@@ -1082,10 +1082,30 @@ public class PrincipalW extends javax.swing.JFrame {
                 archivo = archivo.replace("\"", "");
             }
             System.out.println("Archivo: "+archivo);
+            System.out.println(js_file1);
+            System.out.println(js_file2);
+            System.out.println("------------------------------------------------");
             
             
+            if ( archivo.equals(js_file1)){
+                System.out.println("´ñ´ñ´ñ");
+                datoR.addValue( conv1 , js_file1, "Variable");
+                datoR.addValue( conc1 , js_file1 , "Clase" );
+                datoR.addValue( conm1 , js_file1 , "Metodo" );
+                datoR.addValue( conme1 , js_file1 , "Comentario" );
+                
+            } 
+            if (archivo.equals(js_file2)){
+                System.out.println("pplplplp");
+                datoR.addValue( conv2 , js_file2 , "Variable" );
+                datoR.addValue( conc2 , js_file2 , "Clase" ); 
+                datoR.addValue( conm2 , js_file2 , "Metodo" );
+                datoR.addValue( conme2, js_file2 , "Comentario" );
+                
+            }
             
-            datoR.addValue( conv1 , js_file1, "Variable");
+      
+            
       
       
 
