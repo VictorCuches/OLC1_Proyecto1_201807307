@@ -94,6 +94,8 @@ public class PrincipalW extends javax.swing.JFrame {
     File archivoP;
     JFileChooser seleccionar = new JFileChooser();
     
+    String consola = "Iniciando FIUSAC Copy Analizer";
+    
     
     public PrincipalW() {
         initComponents();
@@ -101,6 +103,8 @@ public class PrincipalW extends javax.swing.JFrame {
         this.setTitle("FIUSAC Copy Analizer");
         Image ico = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Images/logoIng.jpg"));
         this.setIconImage(ico);
+        
+        consolaArea.setText(consola);
     }  
 
     /**
@@ -285,6 +289,8 @@ public class PrincipalW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void abrirFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirFileActionPerformed
+        consola = consola  + "\nCargando archivo";
+        consolaArea.setText(consola);
         JFileChooser JFile = new JFileChooser();
         JFile.showOpenDialog(null);
         File archivo = JFile.getSelectedFile();
@@ -306,6 +312,8 @@ public class PrincipalW extends javax.swing.JFrame {
                 
                 
                 System.out.println("Se leyo correctamente el archivo");
+                consola = consola  + "\nArchivo cargado correctamente";
+                consolaArea.setText(consola);
                 //System.out.println(textFile);
                 
                 
@@ -316,6 +324,7 @@ public class PrincipalW extends javax.swing.JFrame {
         } catch (Exception e){
             
         }   
+        
     }//GEN-LAST:event_abrirFileActionPerformed
 
     private void reportJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportJSONActionPerformed
@@ -418,6 +427,10 @@ public class PrincipalW extends javax.swing.JFrame {
         //SEGMENTO DE CODIGO PARA ANALIZAR ARCHIVO .FCA
         
         textFile = verFile.getText();
+        consola = consola  + "\nIniciando analisis lexico .fca\nAnalisis lexico terminado";
+        consolaArea.setText(consola);
+        consola = consola  + "\nIniciando analisis sintactico .fca \n Analisis sintactico terminado";
+        consolaArea.setText(consola);
                
         
         Lexico lexico = new Lexico(new BufferedReader(new StringReader(textFile)));
@@ -444,7 +457,8 @@ public class PrincipalW extends javax.swing.JFrame {
     }//GEN-LAST:event_EjecutarAppActionPerformed
 
     private void ReportTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportTokenActionPerformed
-        
+        consola = consola  + "\nGenerando reporte de tokens";
+        consolaArea.setText(consola);
         /* VER LOS TOKENS EN CONSOLA
         for(Token ele: listaToken){
             System.out.println("Lexema: "+ele.getLexema()+" Token: "+ele.getToken()+" Columna: "+ele.getColumna()+" Linea: "+ele.getLinea()+" Archivo: "+ele.getName_archivo());
@@ -503,6 +517,8 @@ public class PrincipalW extends javax.swing.JFrame {
         } catch (Exception e){
             System.out.println("Problemichi");
         }
+        consola = consola  + "\nReporte de tokens generado";
+        consolaArea.setText(consola);
         
     }
     
@@ -667,14 +683,21 @@ public class PrincipalW extends javax.swing.JFrame {
         textJS1 = a1.readJS(ruta1);
         textJS2 = a2.readJS(ruta2);
         
-        
+        consola = consola  + "\nIniciando analisis sintactico .fca";
+        consolaArea.setText(consola);
         
         flagJS = js_file1;
         envioAnalisis(textJS1);
+        consola = consola  + "\nIniciando analisis lexico "+js_file1+"\nAnalisis lexico terminado";
+        consola = consola  + "\nIniciando analisis sintactico "+js_file1+"\nAnalisis sintactico terminado";
+        consolaArea.setText(consola);
         System.out.println(flagJS+"--------------------------");
         flagJS = js_file2;
         System.out.println(flagJS+"--------------------------");
         envioAnalisis(textJS2);
+        consola = consola  + "\nIniciando analisis lexico "+js_file2+"\nAnalisis lexico terminado";
+        consola = consola  + "\nIniciando analisis sintactico "+js_file2+"\nAnalisis sintactico terminado";
+        consolaArea.setText(consola);
         
         /*
         System.out.println(textJS1);
@@ -731,7 +754,10 @@ public class PrincipalW extends javax.swing.JFrame {
         
     }
     private void EstatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstatisticsActionPerformed
-        
+        consola = consola  + "\nGenerando reporte estadistico";
+        consolaArea.setText(consola);
+        consola = consola  + "\nReporte estadistico generado";
+        consolaArea.setText(consola);
 /*// GRAFICA DE BARRAS
         DefaultCategoryDataset datosg = new DefaultCategoryDataset();
         datosg.setValue(5,"Barra","Victor");
@@ -812,7 +838,9 @@ public class PrincipalW extends javax.swing.JFrame {
         buildBarras();
         buildPie();
         buildLineas();
-        
+        consola = consola  + "\nCreado graficos";
+        consola = consola  + "\nReporte estadistico listo";
+        consolaArea.setText(consola);
         
         // METODO DONDE SE CONSTRUYE EL HTML
         reporteEst();
@@ -1182,6 +1210,8 @@ public class PrincipalW extends javax.swing.JFrame {
     }
     private void ReportErrorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportErrorActionPerformed
         reportError();
+        consola = consola  + "\nGenerando reporte de errores";
+        consolaArea.setText(consola);
     }//GEN-LAST:event_ReportErrorActionPerformed
 
     private void AgregarPestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarPestActionPerformed
@@ -1218,9 +1248,13 @@ public class PrincipalW extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         textFile = verFile.getText();
+        consola = consola  + "\nArchivo guardado con exito";
+        consolaArea.setText(consola);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        consola = consola  + "\nGuardando archivo";
+        consolaArea.setText(consola);
         if(seleccionar.showDialog(null, "Guardar como") == JFileChooser.APPROVE_OPTION){
             archivo_ = seleccionar.getSelectedFile();
             //if(archivo_.getName().endsWith("txt")){
@@ -1228,6 +1262,8 @@ public class PrincipalW extends javax.swing.JFrame {
                 String mensaje = GuardarArchivo(archivo_, Documento);
                 if(mensaje != null){
                     JOptionPane.showMessageDialog(null, mensaje);
+                    consola = consola  + "\nArchivo guardado con exito";
+                    consolaArea.setText(consola);
                 } else {
                     JOptionPane.showMessageDialog(null, "Archivo no compatible");
                     

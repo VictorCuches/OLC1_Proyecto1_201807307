@@ -50,7 +50,7 @@ parser code
     }  
     
     public void saveToken(String tk, String lin, String col){
-        String nameFile = "Archivo.fca";
+        String nameFile = "entrada.fca";
         switch (tk){
             case "gerepes":
                 listaToken.add(new Token("GenerarReporteEstadistico", "pr_gerepes", lin, col, nameFile));

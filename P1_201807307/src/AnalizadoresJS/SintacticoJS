@@ -296,6 +296,8 @@ variables ::= tipovar IDENTIFI:a IGUAL valuevar PTCOMA
 {:listaVariable.add(new Variables(archivo_name, a.toString()));contlin++;:}
 | IDENTIFI:a IGUAL IDENTIFI
 {:listaVariable.add(new Variables(archivo_name, a.toString()));contlin++;:}
+| tipovar IDENTIFI 
+| tipovar IDENTIFI PTCOMA
 ;
 
 tipovar ::= VAR 
