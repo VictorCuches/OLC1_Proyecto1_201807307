@@ -39,6 +39,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -87,6 +88,11 @@ public class PrincipalW extends javax.swing.JFrame {
     File archivoEntrada;
     int contPes = 1;
     int contGraf = 1;
+    
+    File archivo_;
+    FileOutputStream salida;
+    File archivoP;
+    JFileChooser seleccionar = new JFileChooser();
     
     
     public PrincipalW() {
@@ -174,9 +180,19 @@ public class PrincipalW extends javax.swing.JFrame {
         jMenu1.add(abrirFile);
 
         jMenuItem2.setText("Guardar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("Guardar Como");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
@@ -230,12 +246,12 @@ public class PrincipalW extends javax.swing.JFrame {
 
         Estatistics.setText("Estadistico");
         Estatistics.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 EstatisticsAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         Estatistics.addActionListener(new java.awt.event.ActionListener() {
@@ -287,6 +303,8 @@ public class PrincipalW extends javax.swing.JFrame {
                 
                 textFile = texto;
                 verFile.setText(texto);
+                
+                
                 System.out.println("Se leyo correctamente el archivo");
                 //System.out.println(textFile);
                 
@@ -398,6 +416,10 @@ public class PrincipalW extends javax.swing.JFrame {
         }
         */
         //SEGMENTO DE CODIGO PARA ANALIZAR ARCHIVO .FCA
+        
+        textFile = verFile.getText();
+               
+        
         Lexico lexico = new Lexico(new BufferedReader(new StringReader(textFile)));
         Sintactico sintactico = new Sintactico(lexico);
         
@@ -1131,6 +1153,18 @@ public class PrincipalW extends javax.swing.JFrame {
         
         
     }
+    private String GuardarArchivo(File archivo, String documento){
+        String mensaje = null;
+        try{
+            salida = new FileOutputStream(archivo);
+            byte[] bytxt = documento.getBytes();
+            salida.write(bytxt);
+            mensaje = "Archivo Guardado";
+        } catch (Exception e){
+            
+        }
+        return mensaje;
+    }
     private String verVariable(String dato){
        
         for(VariablesGlo ele2: listaVariables){
@@ -1181,6 +1215,32 @@ public class PrincipalW extends javax.swing.JFrame {
     private void EstatisticsAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_EstatisticsAncestorAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_EstatisticsAncestorAdded
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        textFile = verFile.getText();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        if(seleccionar.showDialog(null, "Guardar como") == JFileChooser.APPROVE_OPTION){
+            archivo_ = seleccionar.getSelectedFile();
+            //if(archivo_.getName().endsWith("txt")){
+                String Documento = verFile.getText();
+                String mensaje = GuardarArchivo(archivo_, Documento);
+                if(mensaje != null){
+                    JOptionPane.showMessageDialog(null, mensaje);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Archivo no compatible");
+                    
+                }
+            //}
+        }
+            
+      
+              
+                
+            
+        
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
